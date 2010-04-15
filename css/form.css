@@ -1,0 +1,72 @@
+body {font-family: "lucida grande",tahoma,verdana,arial,sans-serif; }
+
+/*#menu, #content { border: 1px solid #000;}
+*/
+
+#menu {
+    left: 0px;
+    position: absolute;
+    width: 200px;
+}
+#menu h2 {text-align: center;}
+#menu fieldset {
+    -moz-border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 90%;
+    padding: 2px;
+    padding-bottom: 5px;
+    font-size: 12px;
+}
+
+/* remember, 90% of the menu in width looks best on a 200px menu!*/
+/* search */
+    #searchField input[type=text],input[type=search]  {width: 70%;}
+    #searchField input[type=button] {width: 20%;}
+/* upload */
+    #uploadField input[type=file] {font-size: 9px;}
+    #uploadField input[type=text] {width: 90%;}
+    #uploadField input[type=button] {width: 20%;}
+
+#content {
+    left: 200px;
+    position: absolute;
+    padding: 5px;
+    right: 0px;
+}
+
+
+
+.imageBlock { 
+    width: 200px;
+    text-align: center;
+    position: relative;
+    float: left;
+    margin: 3px 6px 3px 0px;
+    height: 200px;
+    vertical-align: bottom;
+}
+
+.imageBlock img {
+    background-color: #666;
+    border: 2px solid #999;
+    -moz-border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    position: relative;
+    display: block;
+}
+
+.imageBlock .imageOperations {
+    width: 100%;
+    margin-top: 5px;
+    height: 30px;
+}
+
+.jsAction {
+    font-weight: bold;
+}
+.jsAction:hover {cursor: pointer; text-decoration: underline;}
