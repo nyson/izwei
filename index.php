@@ -1,7 +1,7 @@
 <?
     require_once("./lib/SQL.php"); // sql session management
     require_once("./lib/Upload.php"); // upload management
-    
+    require_once("./lib/Search.php"); // search management
     error_reporting(E_ALL);
     
 ?>
@@ -40,36 +40,22 @@
     </div>
     <div id="content">
     <?
-
+        // listen for incoming files
         $inc = new Upload();
         $inc->listen();
 
+        $s = new Search();
+        $s->search();
+       
 
-        $dh = opendir("./thumbs/");
-        while($file = readdir($dh)) {
-            if($file[0] != '.' && true)
-                echo "<div class='imageBlock'>"
-                    . "<a href='./images/$file'>"
-                    . "<img src='./thumbs/$file' alt='$file' /></a>"
-                    . "<div class='imageOperations'>"
-                    . "There will be text</div></div>";
+        // will be moved to design later on
+        while($image = $s->get()) {
+            echo "<div class='imageBlock'>"
+                . "<a href='./images/$image->file'>"
+                . "<img src='./thumbs/$image->file' alt='$image->name' /></a>"
+                . "<div class='imageOperations'>"
+                . "[0S] [=@] [/-] ['']</div></div>";
         }
-
-
-        $tags = $taglinks = $images = array();
-
-        $res = SQL::query("SELECT * FROM tags");
-        while($temp = $res->fetch_object())
-            $tags[] = $temp;
-
-        $res = SQL::query("SELECT * FROM images");
-        while($temp = $res->fetch_object())
-            $images[] = $temp;
-
-        $res = SQL::query("SELECT * FROM taglinks");
-        while($temp = $res->fetch_object())
-            $taglinks[] = $temp;
-
     ?>
     </div>
 

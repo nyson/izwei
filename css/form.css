@@ -8,6 +8,7 @@ body {font-family: "lucida grande",tahoma,verdana,arial,sans-serif; }
     position: absolute;
     width: 200px;
 }
+
 #menu h2 {text-align: center;}
 #menu fieldset {
     -moz-border-radius: 5px;
@@ -21,7 +22,7 @@ body {font-family: "lucida grande",tahoma,verdana,arial,sans-serif; }
     font-size: 12px;
 }
 
-/* remember, 90% of the menu in width looks best on a 200px menu!*/
+/* remember, 90% of the menu in width looks best in a 200px menu!*/
 /* search */
     #searchField input[type=text],input[type=search]  {width: 70%;}
     #searchField input[type=button] {width: 20%;}
