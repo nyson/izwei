@@ -44,12 +44,14 @@
         $inc = new Upload();
         $inc->listen();
 
+
         $s = new Search();
-        $s->search();
-       
+        $s->setOrder('random');
+        $res = $s->search();
+
 
         // will be moved to design later on
-        while($image = $s->get()) {
+        while($image = $res->fetch_object()) {
             echo "<div class='imageBlock'>"
                 . "<a href='./images/$image->file'>"
                 . "<img src='./thumbs/$image->file' alt='$image->name' /></a>"

@@ -90,8 +90,9 @@ class Upload {
             $name = substr(md5(uniqid().rand()), 0, 5);
 
         while(file_exists(I_IMAGE_DIR . DIRECTORY_SEPARATOR . $name)
-            || file_exists(I_THUMBNAIL_DIR . DIRECTORY_SEPARATOR . $name))
-            $name = substr(md5(uniqid().rand()), 0, 5) . $name;
+            || file_exists(I_THUMBNAIL_DIR . DIRECTORY_SEPARATOR . $name)){
+            $name = substr(md5(uniqid().rand()), 0, 5) . substr($name, -26);
+        }
 
         $this->file['safeName'] = $name;
     }
