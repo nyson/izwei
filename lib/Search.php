@@ -7,6 +7,17 @@
 
 
 /**
+ * avaliable sort methods
+ */
+define("SORT_RANDOM", 0);
+define("SORT_NEWEST", 1);
+define("SORT_OLDEST", 2);
+define("SORT_POPULARITY", 3);
+define("SORT_IMPOPULARITY", 4);
+define("SORT_MORETAGS", 5);
+define("SORT_LESSTAGS", 6);
+
+/**
  * sql bindings for i
  */
 require_once("./lib/SQL.php");
@@ -43,36 +54,118 @@ class Search {
     }
 
     /**
-     * sets the order of the search from the string $ordertype, defaulting
-     * to a descending timestamp result setting $desc to false
-     * will generate an ascending order instead
+     * setOrder takes an array or string and generates an advanced sql order
+     * clause from it. More elements in the array means it sorts on more levels,
+     * each sorting method given priority by it's place in the array. Trying to
+     * set the same type of value several times will result in a warning and
+     * the declaration will be ignored.
+     *
+     * avaliable methods:
+     *  * newest: sort newest first
+     *  * oldest: sort oldest first
+     *  * popularity: sort images with highest value first
+     *  * impopularty: sort images with least value first
+     *  * lesstags: images with least tags first
+     *  * moretags: images with more tags first
      *
      * @param string $ordertype
      * @param bool $desc
      */
-    public function setOrder($orderType = "default", $desc = true) {
-        switch(strtolower($orderType)){
-            case 'random':
-                $this->query['order'] = "ORDER BY RAND()";
-                break;
+    public function setOrder($sort = null) {
+        $order = array();
+        $dualCheck = array("time" => false, "tagCount" => false, 
+            "value" => false, "random" => false);
 
-            default:
-            case 'time':
-                $this->query['order'] = "ORDER BY time "
-                    . ($desc ? "DESC" : "ASC");
-                break;
 
-            case 'value':
-                $this->query['order'] = "ORDER BY value "
-                    . ($desc ? "DESC" : "ASC");
-                break;
+        while($s = is_array($sort) ? array_shift($sort) : $sort)
+            switch(strtolower($s)){
+                // sort random
+                case SORT_RANDOM:
+                     if($dualCheck['random']) {
+                        trigger_error(
+                            "Trying to sort by random twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "RAND()";
+                    $dualCheck['random'] = true;
+                    break;
 
-            case 'tags':
-                $this->query['order'] = "ORDER BY tagCount "
-                    . ($desc ? "DESC" : "ASC");
+                // sort newest first
+                default:
+                case SORT_NEWEST:
+                    if($dualCheck['time']) {
+                        trigger_error(
+                            "Trying to sort value twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "image.time DESC";
+                    $dualCheck['time'] = true;
+                    break;
 
-                    
-        }
+                // sort oldest first
+                case SORT_OLDEST:
+                    if($dualCheck['time']){
+                        trigger_error(
+                            "Trying to sort value twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "image.time ASC";
+                    $dualCheck['time'] = true;
+                    break;
+
+                // sort best voted first
+                case SORT_POPULARITY:
+                    if($dualCheck['value']) {
+                        trigger_error(
+                            "Trying to sort value twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "image.value DESC";
+                    $dualCheck['value'] = true;
+                    break;
+
+                // sort worst voted first
+                case SORT_IMPOPULARITY:
+                    if($dualCheck['value']){
+                        trigger_error(
+                            "Trying to sort value twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "image.value ASC";
+                    $dualCheck['value'] = true;
+                    break;
+
+                // sort images with least tags first
+                case SORT_LESSTAGS:
+                    if($dualCheck['tagCount']) {
+                        trigger_error(
+                            "Trying to sort value twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "tagCount ASC";
+                    $dualCheck['tagCount'] = true;
+                    break;
+
+                //  sort images with most tags first
+                case SORT_MORETAGS:
+                    if($dualCheck['tagCount']) {
+                        trigger_error(
+                            "Trying to sort value twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "tagCount DESC";
+                    $dualCheck['tagCount'] = true;
+                    break;
+            }
+
+            $this->query['order'] = "ORDER BY " . implode($order, ", ");
     }
 
     /**
@@ -81,8 +174,7 @@ class Search {
      */
     public function search() {
 
-        $query = 
-            "SELECT image.*, tags.tag, COUNT(tags.id) as tagCount \n"
+        $query = "SELECT image.*, tags.tag, COUNT(tags.id) as tagCount \n"
             . "FROM images AS image \n"
             . "LEFT JOIN taglinks AS tagl ON image.id = tagl.obj_id \n"
             . "LEFT JOIN tags ON tags.id = tagl.tag_id \n"

@@ -48,7 +48,8 @@
 
         // will be moved to design later on
         $s = new Search();
-        $s->setOrder('tags', false);
+        $s->setOrder(array(SORT_MORETAGS, SORT_NEWEST));
+        $s->setTags(null, "hitler");
         $res = $s->search();
 
 
