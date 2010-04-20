@@ -54,19 +54,19 @@ class Search {
     }
 
     /**
-     * setOrder takes an array or string and generates an advanced sql order
+     * setOrder takes an array of constants and generates an advanced sql order
      * clause from it. More elements in the array means it sorts on more levels,
-     * each sorting method given priority by it's place in the array. Trying to
+     * each sorting method given priority by its place in the array. Trying to
      * set the same type of value several times will result in a warning and
      * the declaration will be ignored.
      *
      * avaliable methods:
-     *  * newest: sort newest first
-     *  * oldest: sort oldest first
-     *  * popularity: sort images with highest value first
-     *  * impopularty: sort images with least value first
-     *  * lesstags: images with least tags first
-     *  * moretags: images with more tags first
+     *  * SORT_NEWEST: sort newest first
+     *  * SORT_OLDEST: sort oldest first
+     *  * SORT_POPULARITY: sort images with highest value first
+     *  * SORT_IMPOPULARITY: sort images with least value first
+     *  * SORT_LESSTAGS: images with least tags first
+     *  * SORT_MORETAGS: images with more tags first
      *
      * @param string $ordertype
      * @param bool $desc
@@ -76,9 +76,8 @@ class Search {
         $dualCheck = array("time" => false, "tagCount" => false, 
             "value" => false, "random" => false);
 
-
-        while($s = is_array($sort) ? array_shift($sort) : $sort)
-            switch(strtolower($s)){
+        while($s = array_shift($sort))
+            switch($s){
                 // sort random
                 case SORT_RANDOM:
                      if($dualCheck['random']) {
