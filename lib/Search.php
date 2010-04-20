@@ -68,8 +68,7 @@ class Search {
      *  * SORT_LESSTAGS: images with least tags first
      *  * SORT_MORETAGS: images with more tags first
      *
-     * @param string $ordertype
-     * @param bool $desc
+     * @param array $sort
      */
     public function setOrder($sort = null) {
         $order = array();
