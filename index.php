@@ -40,17 +40,21 @@
     </div>
     <div id="content">
     <?
+        // will be moved to header later on
         // listen for incoming files
         $inc = new Upload();
         $inc->listen();
 
 
+        // will be moved to design later on
         $s = new Search();
-        $s->setOrder('random');
+//        $s->setOrder("time");
+//        $s->setTags(null,"boll");
         $res = $s->search();
 
 
-        // will be moved to design later on
+
+        echo "<p>";
         while($image = $res->fetch_object()) {
             echo "<div class='imageBlock'>"
                 . "<a href='./images/$image->file'>"
@@ -58,6 +62,10 @@
                 . "<div class='imageOperations'>"
                 . "[0S] [=@] [/-] ['']</div></div>";
         }
+        echo "</p><p>";
+        
+ 
+
     ?>
     </div>
 

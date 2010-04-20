@@ -32,6 +32,7 @@ body {font-family: "lucida grande",tahoma,verdana,arial,sans-serif; }
     #uploadField input[type=button] {width: 20%;}
 
 #content {
+    font-size: 12px;
     left: 200px;
     position: absolute;
     padding: 5px;
