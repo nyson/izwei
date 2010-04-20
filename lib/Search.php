@@ -108,6 +108,9 @@ class Search {
      * search to return all rows with the tags 'cute' and 'cuddly_bears' but
      * will ignore all rows with the tag 'belch_demon'
      *
+     * example: setTags(null, "nice_things") is a instruction to how you can't
+     * have nice things
+     * 
      * @param array|string $include
      * @param array|string $exclude
      */
