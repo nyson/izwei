@@ -1,5 +1,9 @@
-<?/* all your configs go here
-*/
+<?
+/**
+ * Configuration file for izwei
+ *
+ * @package i
+ */
 
 // Database
 define(MYSQL_SERVER, "localhost");

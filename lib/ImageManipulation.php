@@ -1,6 +1,15 @@
 <?php
 
 
+/**
+ * Class for manipulating images
+ *
+ * @package i
+ */
+
+/**
+ * 
+ */
 require_once("./config.php");
 /**
  * the maximum width of a thumbnail

@@ -48,8 +48,7 @@
 
         // will be moved to design later on
         $s = new Search();
-//        $s->setOrder("time");
-//        $s->setTags(null,"boll");
+        $s->setOrder('tags', false);
         $res = $s->search();
 
 

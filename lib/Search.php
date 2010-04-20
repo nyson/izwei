@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * manages functions of getting images
+ * @package i
+ */
+
+
+/**
  * sql bindings for i
  */
 require_once("./lib/SQL.php");
@@ -41,8 +47,8 @@ class Search {
      * to a descending timestamp result setting $desc to false
      * will generate an ascending order instead
      *
-     * @var string $ordertype
-     * @var bool $desc
+     * @param string $ordertype
+     * @param bool $desc
      */
     public function setOrder($orderType = "default", $desc = true) {
         switch(strtolower($orderType)){

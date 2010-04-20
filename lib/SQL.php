@@ -1,7 +1,14 @@
 <?php
+/**
+ * SQL manager for i
+ * @package i
+ */
 
+/**
+ * we require a config file!
+ */
 require_once("./config.php");
-error_reporting(E_ALL);
+
 /**
  * SQL class for i
  * @package i

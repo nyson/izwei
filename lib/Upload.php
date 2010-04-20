@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * upload functionality for i
+ * @package i
+ */
+
+
+/**
+ * file imports
+ */
 require_once("./lib/SQL.php");
 require_once("./config.php");
 require_once("./lib/ImageManipulation.php");
