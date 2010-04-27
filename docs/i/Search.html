@@ -21,7 +21,7 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">manages functions of getting images</p>
+<p class="short-description">Search handler for i</p>
 		<p class="notes">
 			Located in <a class="field" href="_Search.php.html">/Search.php</a> (line <span class="field">29</span>)
 		</p>
@@ -44,11 +44,21 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																												
+																																																				
 												<div class="method-definition">
 											<span class="method-result">Search</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
 										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#order" title="details" class="method-name">order</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">0</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#range" title="details" class="method-name">range</a>
+											([<span class="var-type">int</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$count</span> = <span class="var-default">12</span>])
 									</div>
 																<div class="method-definition">
 											<span class="method-result">mysqli_result</span>
@@ -57,18 +67,13 @@
 									</div>
 																<div class="method-definition">
 											<span class="method-result">void</span>
-										<a href="#setOrder" title="details" class="method-name">setOrder</a>
-											([<span class="var-type">array</span>&nbsp;<span class="var-name">$sort</span> = <span class="var-default">null</span>])
+										<a href="#with" title="details" class="method-name">with</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>)
 									</div>
 																<div class="method-definition">
 											<span class="method-result">void</span>
-										<a href="#setSpectrum" title="details" class="method-name">setSpectrum</a>
-											([<span class="var-type">int</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$count</span> = <span class="var-default">12</span>])
-									</div>
-																<div class="method-definition">
-											<span class="method-result">void</span>
-										<a href="#setTags" title="details" class="method-name">setTags</a>
-											([<span class="var-type">array|string</span>&nbsp;<span class="var-name">$include</span> = <span class="var-default">null</span>], [<span class="var-type">array|string</span>&nbsp;<span class="var-name">$exclude</span> = <span class="var-default">null</span>])
+										<a href="#without" title="details" class="method-name">without</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>)
 									</div>
 								</div>
 		</div>
@@ -90,7 +95,7 @@
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">50</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">40</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -110,11 +115,73 @@
 		
 			
 	</div>
+<a name="methodorder" id="order"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">order</span> (line <span class="line-number">54</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">order takes an array of constants and generates an advanced sql order</p>
+<p class="description"><p>clause from it. More elements in the array means it sorts on more levels,  each sorting method given priority by its place in the array. Trying to  set the same type of value several times will result in a warning and  the declaration will be ignored.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			order
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">0</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">0</span><span class="var-description">: ... the order of our search</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrange" id="range"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">range</span> (line <span class="line-number">186</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets the range of our search.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			range
+		</span>
+					([<span class="var-type">int</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$count</span> = <span class="var-default">12</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$offset</span><span class="var-description">: The offset to our search</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$count</span><span class="var-description">: The maximum of returned objects</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="methodsearch" id="search"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">search</span> (line <span class="line-number">173</span>)
+		<span class="method-title">search</span> (line <span class="line-number">156</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -134,16 +201,16 @@
 		
 			
 	</div>
-<a name="methodsetOrder" id="setOrder"><!-- --></a>
+<a name="methodwith" id="with"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">setOrder</span> (line <span class="line-number">73</span>)
+		<span class="method-title">with</span> (line <span class="line-number">196</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">setOrder takes an array of constants and generates an advanced sql order</p>
-<p class="description"><p>clause from it. More elements in the array means it sorts on more levels,  each sorting method given priority by its place in the array. Trying to  set the same type of value several times will result in a warning and  the declaration will be ignored.</p><p>avaliable methods:   * SORT_NEWEST: sort newest first   * SORT_OLDEST: sort oldest first   * SORT_POPULARITY: sort images with highest value first   * SORT_IMPOPULARITY: sort images with least value first   * SORT_LESSTAGS: images with least tags first   * SORT_MORETAGS: images with more tags first</p></p>
+<p class="short-description">Sets the tags we'll include in our search. No params will</p>
+<p class="description"><p>unset any earlier given tags</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -151,28 +218,28 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			setOrder
+			with
 		</span>
-					([<span class="var-type">array</span>&nbsp;<span class="var-name">$sort</span> = <span class="var-default">null</span>])
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type">array</span>
-				<span class="var-name">$sort</span>			</li>
+				<span class="var-type">string</span>
+				<span class="var-name">0</span><span class="var-description">: ...</span>			</li>
 				</ul>
 		
 			
 	</div>
-<a name="methodsetSpectrum" id="setSpectrum"><!-- --></a>
+<a name="methodwithout" id="without"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">setSpectrum</span> (line <span class="line-number">194</span>)
+		<span class="method-title">without</span> (line <span class="line-number">219</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">sets the offset and limit of the sql query</p>
+<p class="short-description">Sets the tags we'll exclude in our search. No params will  unset any earlier given tags.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -180,51 +247,15 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			setSpectrum
+			without
 		</span>
-					([<span class="var-type">int</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$count</span> = <span class="var-default">12</span>])
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type">int</span>
-				<span class="var-name">$offset</span>			</li>
-					<li>
-				<span class="var-type">int</span>
-				<span class="var-name">$count</span>			</li>
-				</ul>
-		
-			
-	</div>
-<a name="methodsetTags" id="setTags"><!-- --></a>
-<div class="evenrow">
-	
-	<div class="method-header">
-		<span class="method-title">setTags</span> (line <span class="line-number">213</span>)
-	</div> 
-	
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">setTags sets the tags we want to limit our search with. $include is  either an array or a string containing tags we want in our search and  $exclude is an array or string containing tags we want to exclude</p>
-<p class="description"><p>example: setTags(array(cute, cuddly_bears), &quot;belch_demons&quot;) will set our  search to return all rows with the tags 'cute' and 'cuddly_bears' but  will ignore all rows with the tag 'belch_demon'</p><p>example: setTags(null, &quot;nice_things&quot;) is a instruction to how you can't  have nice things</p></p>
-	<ul class="tags">
-				<li><span class="field">access:</span> public</li>
-			</ul>
-	
-	<div class="method-signature">
-		<span class="method-result">void</span>
-		<span class="method-name">
-			setTags
-		</span>
-					([<span class="var-type">array|string</span>&nbsp;<span class="var-name">$include</span> = <span class="var-default">null</span>], [<span class="var-type">array|string</span>&nbsp;<span class="var-name">$exclude</span> = <span class="var-default">null</span>])
-			</div>
-	
-			<ul class="parameters">
-					<li>
-				<span class="var-type">array|string</span>
-				<span class="var-name">$include</span>			</li>
-					<li>
-				<span class="var-type">array|string</span>
-				<span class="var-name">$exclude</span>			</li>
+				<span class="var-type">string</span>
+				<span class="var-name">0</span><span class="var-description">: ...</span>			</li>
 				</ul>
 		
 			
@@ -235,7 +266,7 @@
 
 
 	<p class="notes" id="credit">
-		Documentation generated on Wed, 21 Apr 2010 00:46:27 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Wed, 28 Apr 2010 01:13:52 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

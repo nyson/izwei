@@ -21,7 +21,7 @@
 
         <fieldset id="searchField"><legend>Search</legend>
             Enter a search term here... <br />
-            <input type="search" name="search" />
+            <input type="text" name="search" />
             <input class="search" type="button" value="Go!" />
         </fieldset>
 
@@ -48,8 +48,8 @@
 
         // will be moved to design later on
         $s = new Search();
-        $s->setOrder(array(SORT_MORETAGS, SORT_NEWEST));
-        $s->setTags(null, "hitler");
+        $s->order(SORT_NEWEST);
+        $s->range(0, 12);
         $res = $s->search();
 
 

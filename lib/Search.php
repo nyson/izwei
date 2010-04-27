@@ -18,27 +18,17 @@ define("SORT_MORETAGS", 5);
 define("SORT_LESSTAGS", 6);
 
 /**
- * sql bindings for i
+ * SQL bindings for i
  */
 require_once("./lib/SQL.php");
 
 /**
- * manages functions of getting images
+ * Search handler for i
  * @package i
  */
 class Search {
-    /**
-     * offset of the search
-     * @var int $offset
-     */
-    private $offset;
-    /**
-     * amount of rows to get
-     * @var int $count
-     */
-    private $count;
 
-    /**
+	/**
      * associative array of the objects in the row
      * @var array $query
      */
@@ -48,47 +38,28 @@ class Search {
      * sets default query, gets all images by descending timestamp order
      */
     public function __construct() {
-        $this->setSpectrum();
-        $this->setOrder();
-        $this->setTags();
+        $this->range();
+        $this->order();
     }
 
     /**
-     * setOrder takes an array of constants and generates an advanced sql order
+     * order takes an array of constants and generates an advanced sql order
      * clause from it. More elements in the array means it sorts on more levels,
      * each sorting method given priority by its place in the array. Trying to
      * set the same type of value several times will result in a warning and
      * the declaration will be ignored.
      *
-     * avaliable methods:
-     *  * SORT_NEWEST: sort newest first
-     *  * SORT_OLDEST: sort oldest first
-     *  * SORT_POPULARITY: sort images with highest value first
-     *  * SORT_IMPOPULARITY: sort images with least value first
-     *  * SORT_LESSTAGS: images with least tags first
-     *  * SORT_MORETAGS: images with more tags first
-     *
-     * @param array $sort
+     * @param int ... the order of our search
      */
-    public function setOrder($sort = null) {
-        $order = array();
+    public function order() {
+		$order = array();
         $dualCheck = array("time" => false, "tagCount" => false, 
             "value" => false, "random" => false);
-
+        
+		$sort = func_get_args();
         while($s = array_shift($sort))
             switch($s){
-                // sort random
-                case SORT_RANDOM:
-                     if($dualCheck['random']) {
-                        trigger_error(
-                            "Trying to sort by random twice! "
-                            . "Declaration ignored!", E_USER_WARNING);
-                        break;
-                    }
-                    $order[] = "RAND()";
-                    $dualCheck['random'] = true;
-                    break;
-
+            	
                 // sort newest first
                 default:
                 case SORT_NEWEST:
@@ -100,6 +71,18 @@ class Search {
                     }
                     $order[] = "image.time DESC";
                     $dualCheck['time'] = true;
+                    break;
+
+                // sort random
+                case SORT_RANDOM:
+                     if($dualCheck['random']) {
+                        trigger_error(
+                            "Trying to sort by random twice! "
+                            . "Declaration ignored!", E_USER_WARNING);
+                        break;
+                    }
+                    $order[] = "RAND()";
+                    $dualCheck['random'] = true;
                     break;
 
                 // sort oldest first
@@ -171,15 +154,24 @@ class Search {
      * @return mysqli_result
      */
     public function search() {
-
         $query = "SELECT image.*, tags.tag, COUNT(tags.id) as tagCount \n"
             . "FROM images AS image \n"
             . "LEFT JOIN taglinks AS tagl ON image.id = tagl.obj_id \n"
-            . "LEFT JOIN tags ON tags.id = tagl.tag_id \n"
-            . ($this->query['tagWhere'] != "" ? "WHERE "
-                . $this->query['tagWhere'] . "\n" : "")
-            . "GROUP BY image.id " . "\n"
+            . "LEFT JOIN tags ON tags.id = tagl.tag_id \n";
+            
+        if(isset($this->query['include']) || isset($this->query['exclude'])) {
+        	$query .= "WHERE ";
+        	if(isset($this->query['include']) && isset($this->query['exclude']))
+                $query .= $this->query['include'] . "AND " . $this->query['exclude'];
+        	else
+        	    $query .= isset($this->query['include'])
+        		  ? $this->query['include'] : $this->query['exclude'];
+            $query .= "\n";
+        }        
+            
+        $query .= "GROUP BY image.id " . "\n"
             . $this->query['order'] . " ". $this->query['limit'];
+            
         trigger_error("SQL Query is <pre>$query</pre>", E_USER_NOTICE);
         return SQL::query($query);
     }
@@ -187,71 +179,58 @@ class Search {
 
 
     /**
-     * sets the offset and limit of the sql query
-     * @param int $offset
-     * @param int $count
+     * Sets the range of our search. 
+     * @param int $offset The offset to our search
+     * @param int $count The maximum of returned objects
      */
-    public function setSpectrum($offset=0, $count=12) {
+    public function range($offset=0, $count=12) {
         $this->query['limit'] = "LIMIT $offset, $count";
     }
 
+    
     /**
-     * setTags sets the tags we want to limit our search with. $include is
-     * either an array or a string containing tags we want in our search and
-     * $exclude is an array or string containing tags we want to exclude
-     *
-     * example: setTags(array(cute, cuddly_bears), "belch_demons") will set our
-     * search to return all rows with the tags 'cute' and 'cuddly_bears' but
-     * will ignore all rows with the tag 'belch_demon'
-     *
-     * example: setTags(null, "nice_things") is a instruction to how you can't
-     * have nice things
-     * 
-     * @param array|string $include
-     * @param array|string $exclude
+     * Sets the tags we'll include in our search. No params will
+     * unset any earlier given tags
+     * @param string ...
      */
-    public function setTags($include = null, $exclude = null) {
-        $this->query['tagWhere']  = "";
-
-        // tags to include in our search
-        if($include) {
-            if(is_array($include)) {
-                foreach($include as &$tag)
-                    $tag =  "tags.tag LIKE '$tag'";
-                $include = implode($include, " OR ");
-            } else if(is_string($include))
-                $include = "tags.tag LIKE '$include'";
-            else
-                trigger_error("\$included is not of a valid type!",
-                    E_USER_ERROR);
-
-            $this->query['tagWhere'] .= "($include) ";
-
+	public function with() {
+		if(func_num_args() == 0) {
+			trigger_error("No arguments given! Unsetting appropriate variables...", 
+			E_USER_NOTICE);
+			
+			if(isset($this->query['include']))
+                unset($this->query['include']);
+            return;
         }
+		
+		$include = func_get_args();
 
-        // tags to exclude in our search
-        if($exclude) {
-            if(is_array($exclude)) {
-                foreach($exclude as &$tag)
-                    $tag = "tags.tag NOT LIKE '$tag'";
-                $exclude = implode($exclude, " AND ");
+		foreach($include as &$tag)
+            $tag = "tags.tag LIKE '$tag'";
+        $this->query['include'] = "(". implode($include, " OR ") . ") ";
+		
+	}
 
-            } else if(is_string($exclude))
-                $exclude = "tags.tag NOT LIKE '$exclude'";
-            else
-                trigger_error("\$exclude is not of valid type!",
-                    E_USER_ERROR);
-
-            if($include)
-                $this->query['tagWhere'] .= "AND ";
-                
-            /* we need to include a check for our tags.tag that is null,
-             * because of sql not reporting null values as false, but null. */
-            $this->query['tagWhere'] .= 
-                "(tags.tag IS NULL OR ($exclude)) ";
-
+    /**
+     * Sets the tags we'll exclude in our search. No params will
+     * unset any earlier given tags.
+     * @param string ...
+     */	
+	public function without(){
+        if(func_num_args() == 0) {
+            trigger_error("No arguments given! Unsetting appropriate variables...", 
+            E_USER_NOTICE);
+            
+            if(isset($this->query['exclude']))
+                unset($this->query['exclude']);
+            return;
         }
-    }
+		$exclude = func_get_args();
 
+		foreach($exclude as &$tag)
+            $tag = "tags.tag NOT LIKE '$tag'";
+		$this->query['exclude'] = "(tags.tag IS NULL OR ("
+		  . implode($exclude, " AND ") . ")) ";
+	}	
 }
 ?>
