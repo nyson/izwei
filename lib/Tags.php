@@ -19,8 +19,7 @@ class Tags {
 		if(!is_int($object) || !(is_string($tags) || is_array($taggs))) 
 			trigger_error("Parameters is of unvalid type(s)!", E_USER_ERROR);
 		
-		if(is_string($tags))				
-			$tags = $this->separate($tags);
+		$tags = $this->clean($tags);
 			
 		if($keys = $this->add($tags))
 			foreach($keys as $key) {
@@ -39,15 +38,15 @@ class Tags {
 	 * @return array keys of the tags entered 
 	 */
 	public function add($tags) {
-		if(!is_string($tags) && !is_array($tags)) {
+		if(!is_array($tags) && !is_string($tags)) {
 			trigger_error("Tags is of unvalid type!", E_USER_ERROR);
 		}
 		
+		$tags = $this->clean($tags);
+		
 		$keys = array();
 		$existingTags = array();
-		
-		if(is_string($tags))
-			$tags = $this->separate($tags);
+
 			
 		$query = "SELECT id, tag FROM tags WHERE tag = '" 
 		. implode("' OR tag = '", $tags) ."'";
@@ -113,12 +112,16 @@ class Tags {
 		if(is_string($tags))
 			$tags = explode(",", $tags);
 
+		echo "<pre>";
+		print_r($tags);
+		echo "</pre>";	
+			
 		foreach($tags as &$tag) {
 			$tag = strtolower($tag);				
-			$tag = htmlentities ($tags, ENT_QUOTES, "UTF-8");
+			$tag = htmlentities($tag, ENT_QUOTES, "UTF-8");
 			$tag = trim($tag);
 			$tag = str_replace(array(" ", "å", "ä", "ö")
-				, array("_", "a", "a", "o"), $tags);			
+				, array("_", "a", "a", "o"), $tag);			
 		}
 		
 		return $tags;
