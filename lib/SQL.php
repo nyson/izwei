@@ -89,7 +89,7 @@ class SQL {
         return $res;
     }
 
-    public static function lastId() {
+    public static function insertId() {
     	return self::$session->insert_id;
     }
     

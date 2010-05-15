@@ -76,7 +76,7 @@ class Tags {
 			trigger_error("Executing query: '$query'", E_USER_NOTICE);				
 				
 			SQL::query($query);
-			$keys[] = SQL::lastId();
+			$keys[] = SQL::insertId();
 		}
 		
 		if(empty($keys))
@@ -86,7 +86,22 @@ class Tags {
 	}	
 	
 	/**
-	 * Takes a tag string or tag arrayand cleans it to our tag format
+	 * Disconnect tags from an object (stub)
+	 * 
+	 * @param int $object id to object we want to disconnect from
+	 * @param array|string $tags tags to disconnect
+	 */
+	public function disconnect($object, $tags) {}
+	
+	/**
+	 * Removes tags from database and all its object bindings (stub)
+	 * 
+	 * @param array|string $tags tags to remove
+	 */	
+	public function remove($tags) {} 
+	
+	/**
+	 * Takes a tag string or tag array and cleans it to our tag format
 	 * 
 	 * @param string|array $tag
 	 * @return array A clean tag array, ready for database insertion! 
