@@ -2,11 +2,15 @@
     require_once("./lib/SQL.php"); // sql session management
     require_once("./lib/Upload.php"); // upload management
     require_once("./lib/Search.php"); // search management
-    require_once("./lib/Design.php");
+    require_once("./lib/Design.php"); // html output
+    require_once("./lib/Tags.php"); // tag management
     error_reporting(E_ALL);
     $inc = new Upload();
     $inc->listen();
     $site = new Design();
+    $tags = new Tags();
+    
+    
 ?>
 
 <?php $site->header(); ?>
@@ -34,6 +38,7 @@
         $s->range(0, 12);
         $res = $s->search();
 
+        $tags->connect(1,"tag,tokig");
 
 
         echo "<p>";

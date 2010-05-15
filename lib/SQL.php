@@ -89,6 +89,13 @@ class SQL {
         return $res;
     }
 
+    public static function lastId() {
+    	return self::$session->insert_id;
+    }
+    
+    public static function escape($string) {
+    	return self::$session->real_escape_string($string);
+    }
 }
 
 ?>
