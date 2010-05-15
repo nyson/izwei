@@ -1,0 +1,99 @@
+<?php
+/**
+ * Description of Design
+ *
+ * @package i
+ */
+
+/**
+ *  Avaliable form types
+ */
+define("FORM_SIMPLESEARCH", 0);
+define("FORM_UPLOAD", 1);
+define("FORM_ADVANCEDSEARCH", 2);
+define("FORM_ADDTAGS", 3);
+
+
+/**
+ * @package i
+ */
+class Design {
+	public function __construct() {}
+
+	
+	public function header() {
+		?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>I it is...</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="./css/form.css" />
+    <script type="text/javascript"></script>
+</head>
+        <?		
+	}
+	
+	public function footer() {
+		?>
+</html>
+		<?
+	}
+	
+	public function form($type, $vars = null) {
+		
+		switch($type) {
+			case FORM_SIMPLESEARCH:
+                return
+        "<fieldset id=\"searchField\"><legend>Search</legend>
+            Enter a search term here... <br />
+            <input type=\"text\" name=\"search\" />
+            <input class=\"search\" type=\"button\" value=\"Go!\" />
+        </fieldset>";
+                break;
+				
+            case FORM_UPLOAD:
+            	return
+        "<form action=\"./\" method=\"post\" enctype=\"multipart/form-data\">
+            <fieldset id=\"uploadField\"><legend>Upload</legend>
+                Upload by file...<br />
+                <input type=\"hidden\" name=\"MAX_FILE_SIZE\"
+                       value=\"<? echo MAX_FILE_SIZE;?>\" />
+                <input type=\"file\" name=\"uploadImage\" /><br />
+                ...or enter an url!<br />
+                <input type=\"text\" name=\"ajaxUploadImage\" /> <br />
+                <input type=\"submit\" name=\"submitImage\" value=\"Go!\" />
+            </fieldset>
+        </form>";           
+            	break; 
+            	
+            case FORM_ADDTAGS:
+                return 
+        "<form action='./' method='post'>
+        <fieldset id='addTagField'><legend>Add tag!</legend>
+            <input type='text' name='tags' value='Add tags here!' />
+			<input type='hidden' name='imageID' value='".$vars['imageID']."' />
+            <input type='submit' value='Go!'>
+		</fieldset>
+        </form>";
+                break;
+		}
+		
+		  
+	}
+	/**
+	 * Takes a result of mysqli-result::fetch_object();
+	 * 
+	 * @param stdClass $image
+	 */
+	public function imageBlock($image) {
+		return "<div class='imageBlock'>"
+                . "<a href='./images/$image->file'>"
+                . "<img src='./thumbs/$image->file' alt='$image->name' /></a>"
+                . "<div class='imageOperations'>"
+                . "</div></div>";		
+	}
+}
+?>
