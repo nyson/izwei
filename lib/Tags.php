@@ -5,6 +5,8 @@
  * @package i
  */
 
+require_once("./lib/SQL.php");
+
 
 class Tags {
 	/**
@@ -61,7 +63,8 @@ class Tags {
 		}
 		
 		$tagsToAdd = array_diff($tags, $existingTags);
-				
+		unset($existingTags);
+		
 		trigger_error("Object $object is getting linked with tag(s) '"
 			. implode("', '", $tags). "' whereof the tag(s): '" 
 			. implode("', '", $tagsToAdd)
@@ -124,6 +127,24 @@ class Tags {
 				, array("_", "a", "a", "o"), $tag);			
 		}
 		
+		return $tags;
+	}
+	
+	/**
+	 * Returns the tags of any given image
+	 * 
+	 * @param int $imageId the id of the image we want the tags for
+	 */
+	public function get($imageId) {
+		if(!is_numeric($imageId))
+			trigger_error("\$imageId is not an integer!", E_USER_ERROR);
+		$result = SQL::query("SELECT tags.*, tags.id FROM taglinks"
+			. " LEFT JOIN tags ON tags.id = taglinks.id"
+			. " WHERE taglinks.obj_id = $imageId");
+		$tags = array();
+		while($t = $result->fetch_assoc())
+			$tags[] = $t;
+			
 		return $tags;
 	}
 	

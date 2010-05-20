@@ -22,7 +22,7 @@ class Design {
 
 	
 	public function header() {
-		?>
+		echo <<<END
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -31,15 +31,18 @@ class Design {
     <title>I it is...</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" href="./css/form.css" />
-    <script type="text/javascript"></script>
+	<link rel="stylesheet" href="css/pepper-grinder/jquery-ui-1.8.1.custom.css" />
+
+    <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-ui-1.8.1.custom.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+	    
 </head>
-        <?		
+END;
 	}
 	
 	public function footer() {
-		?>
-</html>
-		<?
+		echo "</html>";
 	}
 	
 	public function form($type, $vars = null) {
@@ -60,7 +63,7 @@ class Design {
             <fieldset id=\"uploadField\"><legend>Upload</legend>
                 Upload by file...<br />
                 <input type=\"hidden\" name=\"MAX_FILE_SIZE\"
-                       value=\"<? echo MAX_FILE_SIZE;?>\" />
+                       value=\"". MAX_FILE_SIZE . "\" />
                 <input type=\"file\" name=\"uploadImage\" /><br />
                 ...or enter an url!<br />
                 <input type=\"text\" name=\"ajaxUploadImage\" /> <br />
@@ -91,9 +94,21 @@ class Design {
 	public function imageBlock($image) {
 		return "<div class='imageBlock'>"
                 . "<a href='./images/$image->file'>"
-                . "<img src='./thumbs/$image->file' alt='$image->name' /></a>"
-                . "<div class='imageOperations'>"
-                . "</div></div>";		
+                . "<img id='image$image->id' class='thumbnail'" 
+                . " src='./thumbs/$image->file'"
+                . " alt='$image->name' /></a>"
+                . $this->imageOperations($image)
+                . "</div>";		
 	}
+	
+	public function imageOperations($image) {
+		return "<div class='imageOperations'>"
+			. "<a href='javascript:tagDialog($image->id);' title='Tag this image!'>"
+			. "<img class='tagAction' src='./design/icons/tag.png' alt='Tag this image!' /> </a>"	
+			. "</div>";
+		
+	}
+		
+	
 }
 ?>

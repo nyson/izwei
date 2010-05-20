@@ -76,7 +76,7 @@ class SQL {
 	
 
     /**
-     * submits an sql query
+     * submits a sql query
      * 
      * @param string $query the SQL query we entered
      */
@@ -88,7 +88,11 @@ class SQL {
                 . self::$session->error."</p>");
         return $res;
     }
-
+	/**
+	 * returns the last primary key of an insert query
+	 * 
+	 * 
+	 */
     public static function insertId() {
     	return self::$session->insert_id;
     }
