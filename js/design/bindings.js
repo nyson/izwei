@@ -13,8 +13,7 @@ function submitTags(){
 		dataType: "json",
 		success: function (result, image) {
 			var tagString = "";
-			alert(result.length);
-			
+		
 			for (t in result) {
 				if(t != 0 && t != result.length)
 					tagString += ", ";
@@ -23,8 +22,6 @@ function submitTags(){
 					
 				tagString += result[t]['tag'];
 			}
-			
-			alert("The tags "+tagString+" are connected to the image!");
 		},
 		error: function(xml, status, error) {
 			alert("Error! \nstatus: " +status 	+ "\nerror: " +error);
