@@ -156,8 +156,8 @@ class Search {
     public function search() {
         $query = "SELECT image.*, tags.tag, COUNT(tags.id) as tagCount \n"
             . "FROM images AS image \n"
-            . "LEFT JOIN taglinks AS tagl ON image.id = tagl.obj_id \n"
-            . "LEFT JOIN tags ON tags.id = tagl.tag_id \n";
+            . "LEFT JOIN taglinks AS tagl ON image.id = tagl.object \n"
+            . "LEFT JOIN tags ON tags.id = tagl.tag \n";
             
         if(isset($this->query['include']) || isset($this->query['exclude'])) {
         	$query .= "WHERE ";

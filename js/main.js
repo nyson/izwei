@@ -5,52 +5,55 @@ $(document).ready(function() {
 	})
 	
 	// let's make a dialog!
-	$("#dialog").dialog({
-		autoOpen: false,
-		buttons: {
-			"Tag!" : function(){$(this).dialog("close")},
-			"Cancel" : function(){$(this).dialog("close")},
-		},
-		title : "Tag",
-		modal: true,
-		dialogClass: 'dialog'
-	});
-	
-})
+	$("#dialog").dialog({autoOpen: false});
+});
 
 /**
- * creates a tagdialog to tag image imageId 
- * @param imageId id of image to 
+ * Checks what type of upload we want based on what fields are filled in
+ * @return
  */
-function tagDialog(imageId) {
-	$("#dialog").dialog("open");
-	$.ajax({
-		data: {"do": "getTags", "image":imageId},
-		dataType: "json",
-		success: function(image) { 
-			$("#dialog > .content").html();
-			$("#dialog > .content").html(formatImage(image));
-			
-		},
-		error: function() {alert("AIDS")}
-	});
-	
-};
-
-function formatImage(image) {
-	var hello = $(document.createElement('span')); 
-	for (i in image) {
-		hello.add("a")
-			.attr({
-				"href": "javascript:showTag("+image[i]['id']+");",
-				"title": image[i]['description']
-			})
-			.html(image[i]['tag']);
+function validateUpload() {
+	uploadMessage("Validating upload...");
+	if($("#uploadURL").val().length == 0 
+		&& $("#uploadImage").val().length == 0) { 
+		uploadMessage("You have to fill out at least one of the fields!");
 	}
-	
-	return hello;
+	else if ($("#uploadImage").val() != "") {
+		uploadMessage("Submitting image!");
+		return true;
+	}
+	else {
+		uploadMessage("Uploading image by URL..");
+		uploadByURL($("#uploadURL").val());
+		$("#uploadURL").val("");
+	}
+		
+	return false;
 }
 
-function showTag(tag) {
-	alert("dummy, " + tag);
+
+function uploadMessage(message) {
+	$("#uploadLabel").css({"display": "block"});
+	$("#uploadLabel").html(message);
+}
+
+function uploadByURL(url) {
+	$.ajax({
+		data: {
+			"do" : "uploadByURL",
+			"url" : url
+		},
+		success: function(result) {
+			switch(result) {
+				case 1: 
+					uploadMessage("Image uploaded successfully!");
+					break;
+				case -1: 
+					uploadMessage("Upload failed!");
+					break;
+				default:
+					uploadMessage("wait what");
+			}
+		} 
+	})
 }

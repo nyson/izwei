@@ -1,0 +1,41 @@
+/* general dialog formatting */
+
+#dialog {
+	font-size: 16px;
+}
+
+.content {
+	text-align: center;
+}
+
+
+
+/* tag dialog */
+
+.tagField{
+    -moz-border-radius: 5px;
+    text-align: left;
+}
+
+.tagField legend{
+	font-size: 12px;
+}
+
+.tagField a:hover {    
+	background-color: #777;
+    border: 2px solid #bbb;
+}
+.tagField a:link {text-decoration: none; color: #fff;}
+.tagField a:visited {text-decoration: none; color: #fff;}
+.tagField a {
+	color: #fff;
+	display: block;
+	position: relative;
+	float: left;
+	margin-right: 5px;
+	padding: 3px;
+	-moz-border-radius: 3px;
+    background-color: #666;
+    border: 2px solid #999;
+    
+}

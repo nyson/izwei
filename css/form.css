@@ -79,8 +79,13 @@ body {font-family: "lucida grande",tahoma,verdana,arial,sans-serif; font-size: 1
 	
 }
 
-.dialog {
+.statusMessage{
+	display: none;
 	font-size: 10px;
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #a00;
+	-moz-border-radius: 3px;
 }
 
 .jsAction {

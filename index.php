@@ -4,7 +4,7 @@
     require_once("./lib/Search.php"); // search management
     require_once("./lib/Design.php"); // html output
     require_once("./lib/Tags.php"); // tag management
-    error_reporting(E_ALL);
+    //error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
     $inc = new Upload();
     $inc->listen();
     $site = new Design();

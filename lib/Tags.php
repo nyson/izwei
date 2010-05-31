@@ -19,18 +19,23 @@ class Tags {
 	 */
 	public function connect($object, $tags) {
 		if(!is_int($object) || !(is_string($tags) || is_array($taggs))) 
-			trigger_error("Parameters is of unvalid type(s)!", E_USER_ERROR);
+			trigger_error("Parameters is of invalid type(s)!", E_USER_ERROR);
 		
 		$tags = $this->clean($tags);
 			
-		if($keys = $this->add($tags))
+		if($keys = $this->add($tags)) {
 			foreach($keys as $key) {
-				$query = "INSERT INTO taglinks (image, tag, id)"
+				$query = "INSERT INTO taglinks (object, tag, id)"
 					.  " VALUES ($object, $key, '')";
 				trigger_error("Linking query: '$query'", E_USER_NOTICE);
 				SQL::query($query);					
 			}
-
+			
+			return $keys;
+		}
+		else
+			trigger_error("No keys were retrieved!");
+		
 	}
 	
 	/**
@@ -115,10 +120,6 @@ class Tags {
 		if(is_string($tags))
 			$tags = explode(",", $tags);
 
-		echo "<pre>";
-		print_r($tags);
-		echo "</pre>";	
-			
 		foreach($tags as &$tag) {
 			$tag = strtolower($tag);				
 			$tag = htmlentities($tag, ENT_QUOTES, "UTF-8");
@@ -135,12 +136,12 @@ class Tags {
 	 * 
 	 * @param int $imageId the id of the image we want the tags for
 	 */
-	public function get($imageId) {
+	public function getImageTags($imageId) {
 		if(!is_numeric($imageId))
 			trigger_error("\$imageId is not an integer!", E_USER_ERROR);
 		$result = SQL::query("SELECT tags.*, tags.id FROM taglinks"
-			. " LEFT JOIN tags ON tags.id = taglinks.id"
-			. " WHERE taglinks.obj_id = $imageId");
+			. " LEFT JOIN tags ON tags.id = taglinks.tag"
+			. " WHERE taglinks.object = $imageId");
 		$tags = array();
 		while($t = $result->fetch_assoc())
 			$tags[] = $t;
@@ -148,8 +149,34 @@ class Tags {
 		return $tags;
 	}
 	
-	
-	
+	/**
+	 * Retrieves tags which correspond to the key or 
+	 * keys given in $keys
+	 * 
+	 * @param int|int-array of tag keys
+	 * @return array of tags;
+	 */
+	public function get($keys) {
+		$query = "SELECT * FROM tags WHERE ";
+		$tags = array();
+		
+		if(is_int($keys)) {
+			$query .= "tag = $keys";			
+		} else if(is_array($keys) && !empty($keys)) {
+			$first = true;
+			foreach($keys as $key)
+				$query .= ( $first ? $first = false : " OR ") 
+					."tags.id = $key";
+			
+			$result = SQL::query($query);
+			trigger_error("Getting tags: $query", E_USER_NOTICE);
+			while ($r = $result->fetch_object())
+				$tags[] = $r;
+				
+			return $tags;
+		} 
+		trigger_error("No tags found or invalid keylist", E_USER_NOTICE);
+	}
 }
 
 ?>

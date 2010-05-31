@@ -81,6 +81,8 @@ class SQL {
      * @param string $query the SQL query we entered
      */
     public static function query($query) {
+    	if(!isset($query))
+    		trigger_error("No query is set!", E_USER_ERROR);
         if(!self::isOpen())
             self::connect();
         $res = self::$session->query($query)
@@ -90,14 +92,26 @@ class SQL {
     }
 	/**
 	 * returns the last primary key of an insert query
+	 * if last operation wasn't an insert operation, it will trigger an error
 	 * 
-	 * 
+	 * @return the id of last SQL INSERT operation
 	 */
     public static function insertId() {
+    	if(self::$session->insert_id == 0)
+    		trigger_error("Last operation wasn't an insert operation! "
+    			. "Can't fetch last inserted ID!",
+    			E_USER_ERROR);
     	return self::$session->insert_id;
     }
     
+    /**
+     * 
+     * @param string $string 
+     */
     public static function escape($string) {
+    	if(!is_string($string))
+    		trigger_error("$string isn't really a string, it doesn't need to be escaped",
+    			E_USER_NOTICE);
     	return self::$session->real_escape_string($string);
     }
 }

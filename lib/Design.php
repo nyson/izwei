@@ -31,11 +31,14 @@ class Design {
     <title>I it is...</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" href="./css/form.css" />
+    <link rel="stylesheet" href="./css/dialogs.css" />
 	<link rel="stylesheet" href="css/pepper-grinder/jquery-ui-1.8.1.custom.css" />
 
     <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="./js/jquery-ui-1.8.1.custom.min.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/design/dialogs.js"></script>
+    <script type="text/javascript" src="./js/design/bindings.js"></script>
 	    
 </head>
 END;
@@ -64,10 +67,12 @@ END;
                 Upload by file...<br />
                 <input type=\"hidden\" name=\"MAX_FILE_SIZE\"
                        value=\"". MAX_FILE_SIZE . "\" />
-                <input type=\"file\" name=\"uploadImage\" /><br />
+                <input type=\"file\" id='uploadImage' name=\"uploadImage\" /><br />
                 ...or enter an url!<br />
-                <input type=\"text\" name=\"ajaxUploadImage\" /> <br />
-                <input type=\"submit\" name=\"submitImage\" value=\"Go!\" />
+                <input type=\"text\" id=\"uploadURL\" /> <br />
+                <label id='uploadLabel' class='statusMessage'></label>
+                <input type=\"submit\" onclick='return validateUpload();' name=\"submitImage\" value=\"Go!\" />
+                
             </fieldset>
         </form>";           
             	break; 

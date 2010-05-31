@@ -83,7 +83,83 @@ class Upload {
             
         }
     }
+    
+    public function byURL($url) {
+    	if(!isset($url) || !is_string($url))
+    		trigger_error("Invalid input!", E_USER_ERROR);
 
+    	// check if the image is downloadable
+    	$curlHandle = curl_init();
+    	curl_setopt_array($curlHandle, array(
+    		CURLOPT_URL => $url,
+    		CURLOPT_NOBODY => true,
+    		CURLOPT_HEADER => false
+    	));
+    	$res = curl_exec($curlHandle);
+    	if(!$res)
+    		return "-11\nFile doesn't exist!";
+
+    	$i = curl_getinfo($curlHandle);
+    	if($i['download_content_length'] > MAX_FILE_SIZE)
+    		return "-12\nFile too large!";
+    	
+    	// Download the image!
+    	$this->file['tmp_name'] = tempnam("/tmp", "i2");
+    	$fileHandle = fopen($this->file['tmp_name'], 'w');
+    	$curlHandle = curl_init();
+    	curl_setopt_array($curlHandle, array(
+    		CURLOPT_URL => $url,
+    		CURLOPT_FILE => $fileHandle,
+    		CURLOPT_CONNECTTIMEOUT => DOWNLOAD_TIMEOUT,
+    		CURLOPT_BINARYTRANSFER => 1
+    	));
+    	
+    	$download = curl_exec($curlHandle);
+    	fclose($fileHandle);
+    	
+    	if(curl_errno($curlHandle) != 0)
+    		return "-13\nInternal cURL error: (" . curl_errno($curlHandle) 
+    			. ") " . curl_error($curlHandle);
+
+    	$this->file['hash'] = hash_file("md5", $this->file['tmp_name']);
+		
+		
+		
+		// checks if image is new and if not only grants the image a new
+		// timestamp
+		$res = SQL::query("SELECT COUNT(*) as images FROM images"
+			. " WHERE hash = '".$this->file['hash']."' LIMIT 1");
+		if($res->fetch_object()->images > 0){
+			trigger_error("Hash is not unique, will only update image",
+				E_USER_NOTICE);
+			SQL::query("UPDATE images SET images.time = '".time()."' "
+				. "WHERE hash = '" .$this->file['hash']. "' LIMIT 1");
+			
+			return "2\nSuccess! Image updated in database!";
+		}
+		else {
+	    	$this->file['name'] = split('/', $url);
+	    	$this->file['name'] = $this->file['name'][count($this->file['name']) - 1];
+	    	$this->cleanFilename();
+	    	
+			if(!copy($this->file['tmp_name'], I_IMAGE_DIR 
+            	. DIRECTORY_SEPARATOR . $this->file['safeName']))
+                	return "-14\nCould not copy file to image directory";
+                				
+			$manip = new ImageManipulation($this->file['tmp_name']);
+			$manip->thumbnail();
+			$manip->save(I_THUMBNAIL_DIR
+                        . DIRECTORY_SEPARATOR . $this->file['safeName']);
+			unset($manip);
+			
+			$this->insertIntoDB();
+			
+			return "1\nSuccess! '".$this->file['safeName']."' uploaded!";
+		}
+    	
+    }
+
+    
     private function cleanFilename() {
         $name = $this->file['name'];
         if($name === "" || $name == null)
