@@ -44,16 +44,8 @@ function uploadByURL(url) {
 			"url" : url
 		},
 		success: function(result) {
-			switch(result) {
-				case 1: 
-					uploadMessage("Image uploaded successfully!");
-					break;
-				case -1: 
-					uploadMessage("Upload failed!");
-					break;
-				default:
-					uploadMessage("wait what");
-			}
+			uploadMessage(result);
+
 		} 
 	})
 }
