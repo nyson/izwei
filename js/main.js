@@ -44,7 +44,8 @@ function uploadByURL(url) {
 			"url" : url
 		},
 		success: function(result) {
-			uploadMessage(result);
+			uploadMessage(result 
+				+ "<br /> You have to refresh for yourself :(");
 
 		} 
 	})
