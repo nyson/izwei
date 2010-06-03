@@ -1,52 +1,74 @@
 $(document).ready(function() {
 	$.ajaxSetup ({
 		url: "./ajax.php",
-		method: "GET"
+		method: "GET",
+		cache: false
 	})
 	
 	// let's make a dialog!
 	$("#dialog").dialog({autoOpen: false});
 });
 
-/**
- * Checks what type of upload we want based on what fields are filled in
- * @return
- */
-function validateUpload() {
-	uploadMessage("Validating upload...");
-	if($("#uploadURL").val().length == 0 
-		&& $("#uploadImage").val().length == 0) { 
-		uploadMessage("You have to fill out at least one of the fields!");
-	}
-	else if ($("#uploadImage").val() != "") {
-		uploadMessage("Submitting image!");
-		return true;
-	}
-	else {
-		uploadMessage("Uploading image by URL..");
-		uploadByURL($("#uploadURL").val());
-		$("#uploadURL").val("");
-	}
-		
-	return false;
+$(window).resize(function () {
+	//alert($("#monad").css('display'));
+	if($("#monad").css('display') == "block");
+		$("#imageZoomBox").css({
+			"maxHeight": window.innerHeight * 0.96 + 2,
+			"margin-top" : window.innerHeight * 0.01
+		});
+
+});
+
+function monad(content){
+	$("#monadContent").append(content);
+	$("#monadContent").css({"display":"block"});
+	$("#monad").css({"display":"block"});
 }
 
-
-function uploadMessage(message) {
-	$("#uploadLabel").css({"display": "block"});
-	$("#uploadLabel").html(message);
+function closeMonad() {
+	$("#monadContent").children().remove();
+	$("#monadContent").css({"display":"none"});
+	$("#monad").css({"display":"none"});
 }
 
-function uploadByURL(url) {
+function viewImage(imageId){
+	var imageBlock = $(document.createElement("div"));
+	var imageImage = $(document.createElement("img"));
+	monad(imageBlock);
+	
+	imageBlock.attr({
+		"id":"imageZoomBox"
+	});
+	
+	imageImage.attr({
+		"id":"imageZoomView",
+		"src":"./design/loading.gif"
+	});
+	
+	imageImage.click(closeMonad);
+	imageBlock.append(imageImage);
+	
 	$.ajax({
 		data: {
-			"do" : "uploadByURL",
-			"url" : url
+			"do": "getImage",
+			"image": imageId
 		},
-		success: function(result) {
-			uploadMessage(result 
-				+ "<br /> You have to refresh for yourself :(");
-
-		} 
-	})
+		dataType: "json",		
+		success: function (image) {
+			$("#imageZoomView").attr({
+				"src":"./images/" + image['file'],
+			});
+			
+			
+			$("#imageZoomBox").css({
+				"width":image['width'] + "px",
+				"maxHeight": window.innerHeight * 0.96,
+				"margin-top" : window.innerHeight * 0.01,
+				"display": "block"
+			});
+			
+			
+		},
+		error: function () {alert("ADIDS");}
+	});
 }

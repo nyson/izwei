@@ -10,6 +10,11 @@ if(!isset($_GET['debug']) && $_GET['debug'] != true)
 
 
 switch ($_GET['do']) {
+	/**
+	 * Get the tags of an image
+	 * 
+	 * @param image valid image id
+	 */
 	case 'getTags':
 		if(!isset($_GET['image'])) {
 			echo "-10 Image is not set!";
@@ -25,6 +30,12 @@ switch ($_GET['do']) {
 		echo json_encode($t->getImageTags($_GET['image']));
 		break;
 	
+	/**
+	 * Add tags to image
+	 * 
+	 * @param tags commaseparated string of tags
+	 * @param image valid image id 
+	 */
 	case 'addTags':
 		if(!isset($_GET['tags']) || !isset($_GET['image'])) {
 			echo "-20 Tags or image where not given";
@@ -42,6 +53,12 @@ switch ($_GET['do']) {
 		
 		break;
 	
+		
+	/**
+	 * Upload a file by URL
+	 * 
+	 * @param url url to upload to imagescript
+	 */
 	case 'uploadByURL':
 		if(!isset($_GET['url'])){
 			echo "-20 URL not set!";
@@ -51,6 +68,27 @@ switch ($_GET['do']) {
 		$upload = new Upload();
 		echo $upload->byURL($_GET['url']);
 		
+		break;
+	
+	case 'getImage':
+		if(!isset($_GET['image']) || !is_numeric($_GET['image'])) {
+			echo "-10 Image id not valid";
+			break;
+		}
+		
+		$result = SQL::Query("SELECT * FROM images" 
+			. " WHERE id = '".$_GET['image']."' LIMIT 1");
+		
+			
+		if($result->num_rows == 0) {
+			echo "-11 No image at this ID!";
+			break;
+		}
+
+		
+		echo json_encode($result->fetch_assoc());
+			
+			
 		break;
 	default: 
 		echo "-10 Operation not valid!";

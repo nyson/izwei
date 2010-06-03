@@ -32,7 +32,7 @@ class Design {
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" href="./css/form.css" />
     <link rel="stylesheet" href="./css/dialogs.css" />
-	<link rel="stylesheet" href="css/pepper-grinder/jquery-ui-1.8.1.custom.css" />
+
 
     <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="./js/jquery-ui-1.8.1.custom.min.js"></script>
@@ -98,7 +98,7 @@ END;
 	 */
 	public function imageBlock($image) {
 		return "<div class='imageBlock'>"
-                . "<a href='./images/$image->file'>"
+                . "<a href='javascript:viewImage($image->id);'>"
                 . "<img id='image$image->id' class='thumbnail'" 
                 . " src='./thumbs/$image->file'"
                 . " alt='$image->name' /></a>"
@@ -109,7 +109,7 @@ END;
 	public function imageOperations($image) {
 		return "<div class='imageOperations'>"
 			. "<a href='javascript:tagDialog($image->id);' title='Tag this image!'>"
-			. "<img class='tagAction' src='./design/icons/tag.png' alt='Tag this image!' /> </a>"	
+			. "<img class='tagAction' src='./design/icons/tag.png' alt='Tag this image!' /> </a>"
 			. "</div>";
 		
 	}

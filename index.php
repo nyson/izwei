@@ -18,7 +18,6 @@
 
 
 <body>
-
 	<div id="dialog">
 		<div class='content'></div>
 	</div>
@@ -42,6 +41,10 @@
         
     ?>
     </div>
+    <div id="monad">
+    	
+    </div>
+    <div id="monadContent"> </div>
 </body>
 
 <?  $site->footer();
