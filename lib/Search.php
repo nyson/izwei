@@ -201,12 +201,17 @@ class Search {
 			if(isset($this->query['include']))
                 unset($this->query['include']);
             return;
-        }
+        } 
 		
 		$include = func_get_args();
-
-		foreach($include as &$tag)
-            $tag = "tags.tag LIKE '$tag'";
+		
+		foreach($include as &$tag){
+			if(count($tags = explode(',', $tag)) > 1) {
+				while($t = array_pop($tags))
+					$include[] = $t;
+			} else
+				$tag = "tags.tag LIKE '$tag'";
+		}
         $this->query['include'] = "(". implode($include, " OR ") . ") ";
 		
 	}

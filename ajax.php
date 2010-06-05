@@ -2,14 +2,71 @@
 
 require_once("./lib/Tags.php");
 require_once("./lib/Upload.php");
+require_once("./lib/Search.php");
 // we really don't want to have errors showing up here
 if(!isset($_GET['debug']) && $_GET['debug'] != true)
 	error_reporting(!E_ALL);
 
 
 
-
 switch ($_GET['do']) {
+	/**
+	 *  This will fetch a full list of images
+	 */
+	case getImages: 
+		$s = new Search();
+		
+		// gets the range of our search
+		if(isset($_GET['offset'])) {
+			if(isset($_GET['count']))
+				$s->range((int)$_GET['offset'], (int)$_GET['count']);
+			else
+				$s->range((int)$_GET['offset']);
+		}	
+		else if(isset($_GET['count']))
+			$s->range(NULL¸ (int)$_GET['count']);
+
+		// sets our tags
+		if(isset($_GET['include']))
+			$s->with($_GET['include'])
+		if(isset($_GET['exclude']))
+			$s->without($_GET['exclude'])
+		
+		// sets our order
+		if(isset($_GET['order'])) {
+			$orders = explode(',', $_GET['order']);
+			foreach($orders as $key => &$o)
+				switch($o) {
+					case 'newest':
+						$o = SORT_NEWEST;
+						break;
+					case 'oldest':
+						$o = SORT_OLDEST;
+						break;
+					case 'best':
+						$o = SORT_POPULARITY;
+						break;
+					case 'worst':
+						$o = SORT_IMPOPULARITY;
+						break;
+					case 'random':
+						$o = SORT_RANDOM;
+						break;
+					default:
+						unset($orders[$key]);
+				}
+			$s->order($orders);
+		}
+
+		$result = $s->search();
+		$images = array();
+		foreach($image = $result->fetch_assoc())
+			$images[] = $image;
+			
+		echo json_encode($images);
+		
+		break;
+	
 	/**
 	 * Get the tags of an image
 	 * 

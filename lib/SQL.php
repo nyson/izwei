@@ -39,8 +39,8 @@ class SQL {
 
         self::$session = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD,
             MYSQL_DATABASE);
-
-        if(!self::$session) {
+		
+        if(!self::$session || mysqli_connect_errno()) {
             trigger_error("SQL Session couldn't be opened: " .  self::$session->error
                 , E_USER_ERROR);
             return false;
@@ -85,8 +85,9 @@ class SQL {
     		trigger_error("No query is set!", E_USER_ERROR);
         if(!self::isOpen())
             self::connect();
-        $res = self::$session->query($query)
-            or die("<p>Malformed query: '$query' : "
+        $res = self::$session->query($query);
+        if(self::$session->error)
+			die("<p>Malformed query:<br /> <pre>'$query'</pre> : "
                 . self::$session->error."</p>");
         return $res;
     }
