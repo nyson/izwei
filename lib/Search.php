@@ -53,15 +53,19 @@ class Search {
      */
     public function order() {
 		$order = array();
+		$sort = func_get_args();
         $dualCheck = array("time" => false, "tagCount" => false, 
             "value" => false, "random" => false);
-        
-		$sort = func_get_args();
-        while($s = array_shift($sort))
-            switch($s){
-            	
+
+		if(func_num_args() == 1)
+			if(is_array($sort[0]))
+				$sort = $sort[0];
+		else if(func_num_args() == 0)
+			$sort = array(0);
+
+        foreach($sort as $s){
+        	switch($s){
                 // sort newest first
-                default:
                 case SORT_NEWEST:
                     if($dualCheck['time']) {
                         trigger_error(
@@ -144,9 +148,19 @@ class Search {
                     $order[] = "tagCount DESC";
                     $dualCheck['tagCount'] = true;
                     break;
-            }
-
-            $this->query['order'] = "ORDER BY " . implode($order, ", ");
+                default: 
+                	trigger_error("Sort mode not supported!", E_USER_NOTICE);
+        		}
+        		
+            } // end of while
+            
+            
+			if(count($order) == 0){
+				trigger_error("Orders ignored!", E_USER_NOTICE);
+	            $this->query['order'] = "ORDER BY image.time DESC";
+			}
+			else
+	            $this->query['order'] = "ORDER BY " . implode($order, ", ");
     }
 
     /**
@@ -184,6 +198,11 @@ class Search {
      * @param int $count The maximum of returned objects
      */
     public function range($offset=0, $count=12) {
+    	if(!isset($offset))
+    		$offset = 0;
+    	if(!isset($count))
+    		$count = DEFAULT_IMAGE_COUNT;
+    		
         $this->query['limit'] = "LIMIT $offset, $count";
     }
 
@@ -204,6 +223,9 @@ class Search {
         } 
 		
 		$include = func_get_args();
+		if(func_num_args() == 1)
+			if(is_array($include[0]))
+				$include = $include[0];
 		
 		foreach($include as &$tag){
 			if(count($tags = explode(',', $tag)) > 1) {
@@ -231,7 +253,10 @@ class Search {
             return;
         }
 		$exclude = func_get_args();
-
+		if(func_num_args() == 1)
+			if(is_array($exclude[0]))
+				$exclude = $exclude[0];
+				
 		foreach($exclude as &$tag)
             $tag = "tags.tag NOT LIKE '$tag'";
 		$this->query['exclude'] = "(tags.tag IS NULL OR ("

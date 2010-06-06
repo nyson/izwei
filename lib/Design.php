@@ -39,7 +39,8 @@ class Design {
     <script type="text/javascript" src="./js/main.js"></script>
     <script type="text/javascript" src="./js/design/dialogs.js"></script>
     <script type="text/javascript" src="./js/design/bindings.js"></script>
-	    
+    <script type="text/javascript" src="./js/design/imageMonad.js"></script>
+    
 </head>
 END;
 	}
@@ -56,7 +57,7 @@ END;
         "<fieldset id=\"searchField\"><legend>Search</legend>
             Enter a search term here... <br />
             <input type=\"text\" name=\"search\" />
-            <input class=\"search\" type=\"button\" value=\"Go!\" />
+            <input class=\"search\" id='doQuickSearch' type=\"button\" value=\"Go!\" />
         </fieldset>";
                 break;
 				
@@ -67,7 +68,7 @@ END;
                 Upload by file...<br />
                 <input type=\"hidden\" name=\"MAX_FILE_SIZE\"
                        value=\"". MAX_FILE_SIZE . "\" />
-                <input type=\"file\" id='uploadImage' name=\"uploadImage\" /><br />
+                <input type=\"file\" size='10' id='uploadImage' name=\"uploadImage\" /><br />
                 ...or enter an url!<br />
                 <input type=\"text\" id=\"uploadURL\" /> <br />
                 <label id='uploadLabel' class='statusMessage'></label>

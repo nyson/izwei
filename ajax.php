@@ -4,7 +4,7 @@ require_once("./lib/Tags.php");
 require_once("./lib/Upload.php");
 require_once("./lib/Search.php");
 // we really don't want to have errors showing up here
-if(!isset($_GET['debug']) && $_GET['debug'] != true)
+if(!isset($_GET['debug']))
 	error_reporting(!E_ALL);
 
 
@@ -19,22 +19,23 @@ switch ($_GET['do']) {
 		// gets the range of our search
 		if(isset($_GET['offset'])) {
 			if(isset($_GET['count']))
-				$s->range((int)$_GET['offset'], (int)$_GET['count']);
+				$s->range($_GET['offset'], $_GET['count']);
 			else
-				$s->range((int)$_GET['offset']);
+				$s->range($_GET['offset']);
 		}	
 		else if(isset($_GET['count']))
-			$s->range(NULL¸ (int)$_GET['count']);
+			$s->range(NULL, $_GET['count']);
 
 		// sets our tags
 		if(isset($_GET['include']))
-			$s->with($_GET['include'])
+			$s->with(explode(',', $_GET['include']));
 		if(isset($_GET['exclude']))
-			$s->without($_GET['exclude'])
+			$s->without(explode(',', $_GET['exclude']));
 		
 		// sets our order
 		if(isset($_GET['order'])) {
 			$orders = explode(',', $_GET['order']);
+			
 			foreach($orders as $key => &$o)
 				switch($o) {
 					case 'newest':
@@ -52,15 +53,15 @@ switch ($_GET['do']) {
 					case 'random':
 						$o = SORT_RANDOM;
 						break;
-					default:
-						unset($orders[$key]);
+					default: 
+						trigger_error("Sort mode $o is not supported!", E_USER_NOTICE);
 				}
 			$s->order($orders);
 		}
 
 		$result = $s->search();
 		$images = array();
-		foreach($image = $result->fetch_assoc())
+		while($image = $result->fetch_assoc())
 			$images[] = $image;
 			
 		echo json_encode($images);

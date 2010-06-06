@@ -11,64 +11,23 @@ $(document).ready(function() {
 
 $(window).resize(function () {
 	//alert($("#monad").css('display'));
-	if($("#monad").css('display') == "block");
+	if($("#monad").css('display') == "block")
 		$("#imageZoomBox").css({
 			"maxHeight": window.innerHeight * 0.96 + 2,
 			"margin-top" : window.innerHeight * 0.01
 		});
-
 });
 
 function monad(content){
+	$(document.body).css({'overflow':'hidden'});
 	$("#monadContent").append(content);
 	$("#monadContent").css({"display":"block"});
 	$("#monad").css({"display":"block"});
 }
 
 function closeMonad() {
+	$(document.body).css({'overflow':'auto'});
 	$("#monadContent").children().remove();
 	$("#monadContent").css({"display":"none"});
 	$("#monad").css({"display":"none"});
-}
-
-function viewImage(imageId){
-	var imageBlock = $(document.createElement("div"));
-	var imageImage = $(document.createElement("img"));
-	monad(imageBlock);
-	
-	imageBlock.attr({
-		"id":"imageZoomBox"
-	});
-	
-	imageImage.attr({
-		"id":"imageZoomView",
-		"src":"./design/loading.gif"
-	});
-	
-	imageImage.click(closeMonad);
-	imageBlock.append(imageImage);
-	
-	$.ajax({
-		data: {
-			"do": "getImage",
-			"image": imageId
-		},
-		dataType: "json",		
-		success: function (image) {
-			$("#imageZoomView").attr({
-				"src":"./images/" + image['file'],
-			});
-			
-			
-			$("#imageZoomBox").css({
-				"width":image['width'] + "px",
-				"maxHeight": window.innerHeight * 0.96,
-				"margin-top" : window.innerHeight * 0.01,
-				"display": "block"
-			});
-			
-			
-		},
-		error: function () {alert("ADIDS");}
-	});
 }
