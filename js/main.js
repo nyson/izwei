@@ -1,9 +1,120 @@
+/**
+ * transforms an array to a goody goody string for use as an ajax url
+ */
+function urlify(arr) {
+	ret = new Array();
+	for(a in arr)
+		ret.push(a+"="+arr[a]);
+	
+	return ret.join('&');
+}
+
+/**
+ * trims whitespace, tabs, newlines 
+ */
+function trim(str) {
+	var newStr = new String();
+	var lastGoodChar = -1;
+	
+	for (var i = 0; i < str.length; i++) {
+		switch(str.charAt(i)) {
+			case ' ':
+			case '\n':
+			case '\t':
+			case '\r':
+			case '\0':
+			case '\x0B':
+				if(lastGoodChar != -1)
+					newStr = newStr + str.charAt(i);
+				break;
+			default:
+				newStr = newStr + str.charAt(i);
+				lastGoodChar = newStr.length;
+				break;
+		}
+	}
+	return newStr.substring(0, lastGoodChar);
+}
+
+/**
+ * Checks if the element elem is in array 
+ * @param elem 
+ * @param array 
+ * @return bool true on found element else false
+ */
+function isInArray(elem, array) {
+	for(a in array)
+		if(array[a] == elem)
+			return true;
+	return false;
+}
+
+
+/**
+ * Gets the type of an element and returns a neat string
+ * @param element the element we want to check the type on
+ * @return
+ */
+function typeGet(element) {
+	if(element == null)
+		return "null";
+	return element.constructor.toString().substr(9).split('(',1)[0];
+}
+
+/**
+ * recursively traverses through an array or string and returns the output
+ * @param input
+ * @return the traversed input
+ */
+function rEcho(input, depth) {
+	if(input == null)
+		return;
+	var ret = "";
+	if(depth == null)
+		depth = 0;
+	if(typeGet(input) == "Array" || typeGet(input) == "Object"){
+		for(i in input){
+			for(var j = 0; j < depth; j++)
+				ret += (j == 1 ? "" : "\t"); 
+			
+			ret +=  "'" + i + "' => ";
+			if(typeGet(input[i]) == "Array")
+				ret += "\n";
+			ret += rEcho(input[i], depth+1);
+		}
+	}
+	else {
+		ret += input+" (" +typeGet(input)+ ")\n";
+	}
+	return ret;			
+}
+
+/**
+ * recursively traverses through an array or string and returns the output
+ * @param input the input we want to traverse from
+ */
+function rAlert(input) {
+	alert(rEcho(input, 0));
+}
+
+/**
+ * script start
+ */
 $(document).ready(function() {
+	// sets our default ajax values
 	$.ajaxSetup ({
 		url: "./ajax.php",
 		method: "GET",
 		cache: false
-	})
+	});
+	
+	$("#quickSearchExecute").click(function () {
+		var search = getSearchArray($("#quickSearchText").val());
+		//	rAlert(search);
+		displaySearchRuleset(search);
+		getImages(search);
+	});
+	
 	
 	// let's make a dialog!
 	$("#dialog").dialog({autoOpen: false});
@@ -13,11 +124,17 @@ $(window).resize(function () {
 	//alert($("#monad").css('display'));
 	if($("#monad").css('display') == "block")
 		$("#imageZoomBox").css({
-			"maxHeight": window.innerHeight * 0.96 + 2,
-			"margin-top" : window.innerHeight * 0.01
+			"maxHeight": window.innerHeight * 1
 		});
+	
 });
 
+
+/**
+ *	Creates a monad from jquery element content
+ * 
+ * @param content jquery element to show in the monad
+ */
 function monad(content){
 	$(document.body).css({'overflow':'hidden'});
 	$("#monadContent").append(content);
@@ -25,6 +142,9 @@ function monad(content){
 	$("#monad").css({"display":"block"});
 }
 
+/**
+ * Closes the monad
+ */
 function closeMonad() {
 	$(document.body).css({'overflow':'auto'});
 	$("#monadContent").children().remove();

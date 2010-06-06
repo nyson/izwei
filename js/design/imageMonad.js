@@ -23,6 +23,7 @@ function viewImage(imageId){
 		},
 		dataType: "json",		
 		success: function (image) {
+			
 			$("#imageZoomView").attr({
 				"src":"./images/" + image['file'],
 			});
@@ -30,8 +31,7 @@ function viewImage(imageId){
 			
 			$("#imageZoomBox").css({
 				"width":image['width'] + "px",
-				"maxHeight": window.innerHeight * 0.96,
-				"margin-top" : window.innerHeight * 0.01,
+				"maxHeight": window.innerHeight * 1,
 				"display": "block"
 			});
 			

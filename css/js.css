@@ -1,0 +1,8 @@
+@CHARSET "ISO-8859-1";
+
+/*JavaScript specific CSS*/
+
+.searchFilter{
+	border: 1px solid #a00;
+	-moz-border-radius: 5px;
+}

@@ -104,8 +104,8 @@ img { z-index: 1}
 	background-image: url('../design/monadbg.png');
 	display: none;
 	z-index: 99;
-	filter:alpha(opacity=40);
-  	opacity:0.4;
+	filter:alpha(opacity=50);
+  	opacity:0.5;
   	left: 0;
   	top: 0;
   	width: 100%;
@@ -136,12 +136,20 @@ img { z-index: 1}
 	margin-left: auto;
 	margin-right: auto;	
 	display: none;
-    border: 2px solid #999;
-    -moz-border-radius: 5px;
-    padding-bottom: -1px;
 }
 #imageZoomView {
 	overflow: hidden;
 	z-index: 1000;
+}
+
+.searchRuleBox {
+	border: 1px solid #faa;
+	-moz-border-radius: 3px;
+	display: block;
+	width: 90%;
+	padding: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
 }
 

@@ -149,7 +149,10 @@ switch ($_GET['do']) {
 			
 		break;
 	default: 
-		echo "-10 Operation not valid!";
+		if(isset($_GET['do']))
+			echo "-10 Operation '".$_GET['do']."' not valid!";
+		else
+			echo "-11 No operation set!";
 		
 		
 		

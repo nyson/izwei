@@ -40,6 +40,7 @@ class Design {
     <script type="text/javascript" src="./js/design/dialogs.js"></script>
     <script type="text/javascript" src="./js/design/bindings.js"></script>
     <script type="text/javascript" src="./js/design/imageMonad.js"></script>
+    <script type="text/javascript" src="./js/design/search.js"></script>
     
 </head>
 END;
@@ -56,8 +57,9 @@ END;
                 return
         "<fieldset id=\"searchField\"><legend>Search</legend>
             Enter a search term here... <br />
-            <input type=\"text\" name=\"search\" />
-            <input class=\"search\" id='doQuickSearch' type=\"button\" value=\"Go!\" />
+            <input type=\"text\" id=\"quickSearchText\" />
+            <input class=\"search\" id='quickSearchExecute' type=\"button\" value=\"Go!\" />
+            <br /><div id='searchRules'></div>
         </fieldset>";
                 break;
 				
@@ -99,7 +101,7 @@ END;
 	 */
 	public function imageBlock($image) {
 		return "<div class='imageBlock'>"
-                . "<a href='javascript:viewImage($image->id);'>"
+                . "<a href='javascript:viewImage($image->id);' title='Click to zoom!'>"
                 . "<img id='image$image->id' class='thumbnail'" 
                 . " src='./thumbs/$image->file'"
                 . " alt='$image->name' /></a>"
