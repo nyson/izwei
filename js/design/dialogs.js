@@ -8,26 +8,11 @@
  * @param imageId id of image to 
  */
 function tagDialog(imageId) {
-	$("#dialog").dialog({
-		buttons: {
-			"Tag this image!" : function(){
-				submitTags();
-				$(this).dialog("close");
-			},
-			"Cancel" : function(){$(this).dialog("close")},
-		},
-		title : "Tag",
-		modal: true,
-		dialogClass: 'dialog'		
-	});
-	
-	$("#dialog").dialog("open");
-	
 	$.ajax({
 		data: {"do": "getTags", "image":imageId},
 		dataType: "json",
 		success: function(tags) { 
-			$("#dialog > .content").html(tagDialogContent(tags, imageId));			
+			monad(tagDialogContent(tags, imageId));			
 		},
 		error: function() {alert("AIDS");}
 	});
@@ -44,13 +29,39 @@ function tagDialog(imageId) {
  * @return a neatly formatted box to append to the document
  */
 function tagDialogContent(tags, image) {
-	var box = $(document.createElement('span'));
+	var box = $(document.createElement('div'));
 	var tagField = $(document.createElement('fieldset'));
 	var textBox = $(document.createElement('input'));
-	var imageId = $(document.createElement('input'));
-
+	var imageId = textBox.clone();
+	var okButton = textBox.clone();
+	okButton.attr({'type':'button'});
+	var cancelButton = okButton.clone();
+	
+	box.attr({'id':'tagDialog'});
+	
 	tagField.append("<legend>Current Tags</legend>");
 	tagField.addClass("tagField");
+
+	textBox .attr({
+		"id": "tagNewTags",
+		"type": "text"
+	});
+		
+	imageId .attr({
+		"id": "tagImageId",
+		"type": "hidden",
+		"value": image		
+	});
+	
+	okButton.val("Submit tags!");
+	okButton.click(function () {
+		submitTags();
+		closeMonad();		
+	});
+	
+	cancelButton.val("Cancel");
+	cancelButton.click(closeMonad);
+	
 
 	for (t in tags) {
 		tag = $(document.createElement('a'));
@@ -63,19 +74,6 @@ function tagDialogContent(tags, image) {
 		tagField.append(tag);
 	}
 
-	
-
-	textBox .attr({
-		"id": "tagNewTags",
-		"type": "text"
-	});
-	
-	imageId .attr({
-		"id": "tagImageId",
-		"type": "hidden",
-		"value": image		
-	});
-	
 	if(tags.length > 0) {
 		box.append(tagField);
 		box.append("<br />");
@@ -85,9 +83,12 @@ function tagDialogContent(tags, image) {
 		label.html("No tags yet! Be the first to tag it!");
 		box.append(label);
 		box.append("<br />");
-	}
-	
+	}	
+
 	box.append(textBox);
 	box.append(imageId);
+	box.append($(document.createElement("br")));
+	box.append(cancelButton);
+	box.append(okButton);
 	return box;
 }

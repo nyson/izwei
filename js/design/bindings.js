@@ -17,7 +17,7 @@ function submitTags(){
 			for (t in result) {
 				if(t != 0 && t != result.length)
 					tagString += ", ";
-				else if(t == tags.length) 
+				else if(t == result.length) 
 					tagString += " and ";
 					
 				tagString += result[t]['tag'];
