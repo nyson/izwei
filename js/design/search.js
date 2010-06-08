@@ -87,7 +87,7 @@ function displaySearchRuleset(search){
 	box.attr({'class':'searchRuleBox'});
 	
 	
-	if(search['order'].length > 0){
+	if(search['order'] != null && search['order'].length > 0){
 		var order = box.clone();
 		order.html("order is: " + search['order'].join(', '));
 		$("#searchRules").append(order);
