@@ -57,9 +57,10 @@ END;
 			case FORM_SIMPLESEARCH:
                 return
         "<fieldset id=\"searchField\"><legend>Search</legend>
-            Enter a search term here... <br />
-            <input type=\"text\" id=\"quickSearchText\" />
-            <input class=\"search\" id='quickSearchExecute' type=\"button\" value=\"Go!\" />
+            Search!<br />
+       <a href='javascript:searchHelp();' title='HALP'>Help!</a>
+		<input type=\"text\" id=\"quickSearchText\" />
+           <input class=\"search\" id='quickSearchExecute' type=\"button\" value=\"Go!\" />
             <br /><div id='searchRules'></div>
         </fieldset>";
                 break;
