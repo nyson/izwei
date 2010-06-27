@@ -153,3 +153,10 @@ img { z-index: 1}
 	margin-top: 5px;
 }
 
+
+.ajaxLoading{
+	margin-right:auto;
+	margin-left: auto;
+	margin-top: 100px;
+	width: 100%;
+}

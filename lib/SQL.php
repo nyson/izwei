@@ -23,9 +23,7 @@ class SQL {
      * @return bool returns true if connection is open, else false
      */
     public static function isOpen(){
-        if(!isset(self::$open) || !self::$open)
-            return false;
-        return true;
+        return isset(self::$open) && self::$open;
     }
 
     /**
@@ -46,8 +44,8 @@ class SQL {
             return false;
         }
 
-        self::$open = true;
-        return true;
+        
+        return self::$open = true;
     }
 
     /**
@@ -110,6 +108,8 @@ class SQL {
      * @param string $string 
      */
     public static function escape($string) {
+		if(!self::isOpen() || self::$session == null)
+			trigger_error("Session needs to be open for an escape of a string to be made!");
     	if(!is_string($string))
     		trigger_error("$string isn't really a string, it doesn't need to be escaped",
     			E_USER_NOTICE);

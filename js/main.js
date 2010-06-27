@@ -9,6 +9,11 @@ $(document).ready(function() {
 		cache: false
 	});
 	
+	$("#quickSearchText").keypress(function (event) {
+		if(event.keyCode == '13')
+			$("#quickSearchExecute").click();
+	});
+	
 	$("#quickSearchExecute").click(function () {
 		var search = getSearchArray($("#quickSearchText").val());
 		//	rAlert(search);
@@ -16,6 +21,11 @@ $(document).ready(function() {
 		getImages(search);
 	});
 	
+	$("#uploadURL").keypress(function(event) {
+		if(event.keyCode == '13')
+			$("#sumbitImage").click();
+			event.preventDefault();
+	});
 	
 	// let's make a dialog!
 	$("#dialog").dialog({autoOpen: false});
@@ -32,7 +42,6 @@ function monad(content){
 	$("#monadContent").css({"display":"block"});
 	$("#monad").css({"display":"block"});
 }
-
 /**
  * Closes the monad
  */

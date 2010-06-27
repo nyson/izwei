@@ -34,15 +34,18 @@ class Design {
     <link rel="stylesheet" href="./css/dialogs.css" />
 
 
-    <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="./js/jquery-ui-1.8.1.custom.min.js"></script>
+    <script type="text/javascript" src="./js/jquery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="./js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
+    
+	<script type="text/javascript" src="./js/DOMNodes/searchNodes.js"></script>
+    
     <script type="text/javascript" src="./js/base.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     <script type="text/javascript" src="./js/upload.js"></script>
-    <script type="text/javascript" src="./js/design/dialogs.js"></script>
-    <script type="text/javascript" src="./js/design/bindings.js"></script>
-    <script type="text/javascript" src="./js/design/imageMonad.js"></script>
-    <script type="text/javascript" src="./js/design/search.js"></script>
+    <script type="text/javascript" src="./js/dialogs.js"></script>
+    <script type="text/javascript" src="./js/bindings.js"></script>
+    <script type="text/javascript" src="./js/imageMonad.js"></script>
+    <script type="text/javascript" src="./js/search.js"></script>
     
 </head>
 END;
@@ -77,7 +80,7 @@ END;
                 ...or enter an url!<br />
                 <input type=\"text\" id=\"uploadURL\" /> <br />
                 <label id='uploadLabel' class='statusMessage'></label>
-                <input type=\"submit\" onclick='return validateUpload();' name=\"submitImage\" value=\"Go!\" />
+                <input type=\"submit\" id=\"submitImage\" onclick='return validateUpload();' name=\"submitImage\" value=\"Go!\" />
                 
             </fieldset>
         </form>";           

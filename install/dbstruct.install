@@ -26,10 +26,10 @@ USE `i`;
 
 CREATE TABLE IF NOT EXISTS `images` (
   `id` int(32) NOT NULL auto_increment,
-  `file` varchar(40) NOT NULL,
+  `file` varchar(128) NOT NULL,
   `hash` varchar(64) NOT NULL,
   `time` int(16) NOT NULL,
-  `name` varchar(64) character set utf8 collate utf8_bin NOT NULL,
+  `name` varchar(128) character set utf8 collate utf8_bin NOT NULL,
   `ip` varchar(16) character set utf8 collate utf8_bin NOT NULL,
   `value` int(32) NOT NULL default '0',
   `width` int(32) NOT NULL default '-1',
