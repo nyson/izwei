@@ -45,14 +45,21 @@ function hashNav() {
 		window.setTimeout(hashNav, 500);
 		return;
 	}
+	// Save hash for checking next time.
 	hashNav.hash = location.hash;
-	var theHash = location.hash.substring(1);
+
+	// Split hash into command and data part.
+	var theHash = location.hash.substring(1).split(':', 1)[0];
+	var data = location.hash.substring(2+theHash.length);
+
 	switch(theHash) {
 		case '': // empty hash; close all dialogs
 			closeModal();
 			break;
 		default: // if we just get a number with no prefix, it's an image ID
-			viewImage(theHash);
+			if(!isNaN(parseFloat(theHash))) {
+				viewImage(theHash);
+			}
 			break;
 	}
 	window.setTimeout(hashNav, 500);
