@@ -67,9 +67,9 @@ function hashNav() {
  */
 function setHash(newHash, useHandler) {
 	if(!useHandler) {
-		hashNav.hash = newHash;
+		hashNav.hash = newHash ? '#' + newHash : '';
 	}
-	location.hash = newHash;
+	location.hash = '#' + newHash;
 }
 
 /**
