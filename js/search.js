@@ -94,6 +94,13 @@ function getImages(searchRules) {
 	// with.
 	if(typeof searchRules == 'string') {
 		searchString = searchRules;
+		setHash('search:' + searchString);
+	} else if(searchRules == null) {
+		// If searchRules is null, then we get the default set of images,
+		// just like on front page load. If this is the case, we don't set
+		// the hash, because the result is going to be identical to just
+		// loading the front page.
+		searchString = 'do=getImages';
 	} else {
 		// transforms our arrays to strings
 		for(i in searchRules) {
@@ -103,8 +110,8 @@ function getImages(searchRules) {
 		}
 		searchRules['do'] = 'getImages';
 		searchString = urlify(searchRules);
+		setHash('search:' + searchString);
 	}
-	setHash('search:' + searchString);
 
 	$.ajax({
 		data: searchString,

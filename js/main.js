@@ -56,6 +56,7 @@ function hashNav() {
 	switch(theHash) {
 		case '': // empty hash; close all dialogs
 			closeModal();
+			getImages();
 			break;
 		case 'search': // stored search, perform it and show the results
 			getImages(data);
