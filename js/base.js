@@ -46,9 +46,11 @@ function trim(str) {
  * @return bool true on found element else false
  */
 function isInArray(elem, array) {
-	for(a in array)
-		if(array[a] == elem)
+	for(a in array) {
+		// Use ===, or else isInArray(0, ['']) == true
+		if(array[a] === elem)
 			return true;
+	}
 	return false;
 }
 
