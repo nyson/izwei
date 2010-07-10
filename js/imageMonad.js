@@ -1,4 +1,4 @@
-
+1
 /**
  * Creates an imageBlock within a monad
  * 
@@ -27,7 +27,10 @@ function viewImage(imageId){
 		"src":"./design/loading.gif"
 	});
 	
-	imageImage.click(closeMonad);
+	imageImage.click(function() {
+			setHash('');
+			closeMonad();
+		});
 	imageBlock.append(imageImage);
 	imageBlock.append(imageWidth);
 	
@@ -38,6 +41,7 @@ function viewImage(imageId){
 		},
 		dataType: "json",		
 		success: function (image) {
+			setHash(imageId);
 			var width= (image['width'] < window.innerWidth 
 					? image['width'] : (window.innerWidth * 0.9)) + "px";
 			$("#imageZoomView").attr({

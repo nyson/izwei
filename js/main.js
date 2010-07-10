@@ -29,7 +29,48 @@ $(document).ready(function() {
 	
 	// let's make a dialog!
 	$("#dialog").dialog({autoOpen: false});
+
+	// Start polling for hash changes; polling is retarded, but it's the only
+	// way to do this currently.
+	hashNav();
 });
+
+/**
+ * Hash-based navigation; take an action depending on the hash we get.
+ */
+function hashNav() {
+	// Return ASAP if the hash didn't change; this path must always be fast,
+	// as we'll be running it twice every second.
+	if(location.hash == hashNav.hash) {
+		window.setTimeout(hashNav, 500);
+		return;
+	}
+	hashNav.hash = location.hash;
+	var theHash = location.hash.substring(1);
+	switch(theHash) {
+		case '': // empty hash; close all dialogs
+			closeMonad();
+			break;
+		default: // if we just get a number with no prefix, it's an image ID
+			viewImage(theHash);
+			break;
+	}
+	window.setTimeout(hashNav, 500);
+}
+
+/**
+ * Sets location.hash in such a fashion that hashNav does not handle the
+ * change.
+ *
+ * @param newHash    Hash value to set.
+ * @param useHandler Should this change be handled by hashNav?
+ */
+function setHash(newHash, useHandler) {
+	if(!useHandler) {
+		hashNav.hash = newHash;
+	}
+	location.hash = newHash;
+}
 
 /**
  *	Creates a monad from jquery element content
