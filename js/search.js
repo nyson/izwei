@@ -89,14 +89,25 @@ function getSearchArray(searchString) {
 }
 
 function getImages(searchRules) {
-	// transforms our arrays to strings
-	for(i in searchRules)
-		if(typeGet(searchRules[i]) == "Array")
-			searchRules[i] = searchRules[i].join(',');
-	searchRules['do'] = 'getImages';
+	var searchString;
+	// if searchRules is a string, it's the exact string we want to search
+	// with.
+	if(typeof searchRules == 'string') {
+		searchString = searchRules;
+	} else {
+		// transforms our arrays to strings
+		for(i in searchRules) {
+			if(typeGet(searchRules[i]) == "Array") {
+				searchRules[i] = searchRules[i].join(',');
+			}
+		}
+		searchRules['do'] = 'getImages';
+		searchString = urlify(searchRules);
+	}
+	setHash('search:' + searchString);
 
 	$.ajax({
-		data: urlify(searchRules),
+		data: searchString,
 		dataType: 'json',
 		success: function (images) {
 			$("#content").empty();

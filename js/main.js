@@ -32,6 +32,7 @@ $(document).ready(function() {
 
 	// Start polling for hash changes; polling is retarded, but it's the only
 	// way to do this currently.
+	hashNav.hash = '';
 	hashNav();
 });
 
@@ -55,6 +56,9 @@ function hashNav() {
 	switch(theHash) {
 		case '': // empty hash; close all dialogs
 			closeModal();
+			break;
+		case 'search': // stored search, perform it and show the results
+			getImages(data);
 			break;
 		default: // if we just get a number with no prefix, it's an image ID
 			if(!isNaN(parseFloat(theHash))) {
