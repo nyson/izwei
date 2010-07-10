@@ -42,8 +42,12 @@ function viewImage(imageId){
 		dataType: "json",		
 		success: function (image) {
 			setHash(imageId);
-			var width= (image['width'] < window.innerWidth 
-					? image['width'] : (window.innerWidth * 0.9)) + "px";
+			var width;
+			if(image['width'] < $(window).width()*0.9) {
+				width = image['width'];
+			} else {
+				width = $(window).width() * 0.9;
+			}
 			$("#imageZoomView").attr({
 				"src":"./images/" + image['file']
 			});
@@ -51,13 +55,13 @@ function viewImage(imageId){
 			$("#imageZoomWidth").val(image['width']);
 			
 			$("#imageZoomView").css({
-				"width":width,
-				"maxWidth": image['width']
+				"width": width + 'px',
+				"maxWidth": image['width'] + 'px'
 			});
 			
 			$("#imageZoomBox").css({
-				"width":width,
-				"maxHeight": window.innerHeight * 1,
+				"width": width + 'px',
+				"maxHeight": $(window).height() + 'px',
 				"display": "block"
 			});
 			
