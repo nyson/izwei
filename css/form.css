@@ -100,8 +100,8 @@ img { z-index: 1}
 }
 .jsAction:hover {cursor: pointer; text-decoration: underline;}
 
-#monad {	
-	background-image: url('../design/monadbg.png');
+#modal {	
+	background-image: url('../design/modalbg.png');
 	display: none;
 	z-index: 99;
 	filter:alpha(opacity=50);
@@ -115,7 +115,7 @@ img { z-index: 1}
   	padding: 0px;
 }
 
-#monadContent {
+#modalContent {
   	left: 0;
   	top: 0;
 	display: none;

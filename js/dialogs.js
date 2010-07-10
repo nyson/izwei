@@ -12,7 +12,7 @@ function tagDialog(imageId) {
 		data: {"do": "getTags", "image":imageId},
 		dataType: "json",
 		success: function(tags) { 
-			monad(tagDialogContent(tags, imageId));			
+			modal(tagDialogContent(tags, imageId));			
 		},
 		error: function() {alert("AIDS");}
 	});
@@ -43,11 +43,11 @@ function tagDialogContent(tags, image) {
 	realTextBox.onkeypress = function(evt) {
 			switch(evt.keyCode) {
 				case 27: // escape; close dialog
-					closeMonad();
+					closeModal();
 					break;
 				case 13: // return; submit tags
 					submitTags();
-					closeMonad();
+					closeModal();
 					break;
 			}
 		}
@@ -77,11 +77,11 @@ function tagDialogContent(tags, image) {
 	okButton.val("Submit tags!");
 	okButton.click(function () {
 		submitTags();
-		closeMonad();		
+		closeModal();		
 	});
 	
 	cancelButton.val("Cancel");
-	cancelButton.click(closeMonad);
+	cancelButton.click(closeModal);
 	
 
 	for (t in tags) {

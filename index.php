@@ -47,10 +47,10 @@
         
     ?>
     </div>
-    <div id="monad">
+    <div id="modal">
     	
     </div>
-    <div id="monadContent"> </div>
+    <div id="modalContent"> </div>
 </body>
 
 <?  $site->footer();

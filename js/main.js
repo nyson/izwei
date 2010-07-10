@@ -49,7 +49,7 @@ function hashNav() {
 	var theHash = location.hash.substring(1);
 	switch(theHash) {
 		case '': // empty hash; close all dialogs
-			closeMonad();
+			closeModal();
 			break;
 		default: // if we just get a number with no prefix, it's an image ID
 			viewImage(theHash);
@@ -73,9 +73,9 @@ function setHash(newHash, useHandler) {
 }
 
 /**
- *	Creates a monad from jquery element content
+ *	Creates a modal from jquery element content
  * 
- * @param content jquery element to show in the monad, or a two element array
+ * @param content jquery element to show in the modal, or a two element array
  *                where the first element is the element to show, and the
  *                second is the sub-element of the dialogue that should
  *                receive focus on opening the dialog.
@@ -86,29 +86,29 @@ function setHash(newHash, useHandler) {
  * @param closeOnClickOutside Should the modal dialog close when the user
  *                            clicks outside it?
  */
-function monad(content, closeOnClickOutside){
+function modal(content, closeOnClickOutside){
 	if(content instanceof Array) {
 		thebody = content[0];
 	} else {
 		thebody = content;
 	}
 	$(document.body).css({'overflow':'hidden'});
-	$("#monadContent").append(thebody);
-	$("#monadContent").css({"display":"block"});
-	$("#monad").css({"display":"block"});
+	$("#modalContent").append(thebody);
+	$("#modalContent").css({"display":"block"});
+	$("#modal").css({"display":"block"});
 	if(closeOnClickOutside) {
-		$("#monadContent").click(closeMonad);
+		$("#modalContent").click(closeModal);
 	}
 	if(content instanceof Array && content.length == 2) {
 		content[1].focus();
 	}	
 }
 /**
- * Closes the monad
+ * Closes the modal
  */
-function closeMonad() {
+function closeModal() {
 	$(document.body).css({'overflow':'auto'});
-	$("#monadContent").children().remove();
-	$("#monadContent").css({"display":"none"});
-	$("#monad").css({"display":"none"});
-}
+	$("#modalContent").children().remove();
+	$("#modalContent").css({"display":"none"});
+	$("#modal").css({"display":"none"});
+}	

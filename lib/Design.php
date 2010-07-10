@@ -44,7 +44,7 @@ class Design {
     <script type="text/javascript" src="./js/upload.js"></script>
     <script type="text/javascript" src="./js/dialogs.js"></script>
     <script type="text/javascript" src="./js/bindings.js"></script>
-    <script type="text/javascript" src="./js/imageMonad.js"></script>
+    <script type="text/javascript" src="./js/imageModal.js"></script>
     <script type="text/javascript" src="./js/search.js"></script>
     
 </head>

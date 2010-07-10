@@ -1,6 +1,6 @@
 1
 /**
- * Creates an imageBlock within a monad
+ * Creates an imageBlock within a modal dialog.
  * 
  * @param id of the image to view
  */
@@ -10,7 +10,7 @@ function viewImage(imageId){
 	var imageImage = $(document.createElement("img"));
 	var imageWidth = $(document.createElement("input"));
 
-	monad(imageBlock, true);
+	modal(imageBlock, true);
 
 	imageWidth.attr({
 		"type":"hidden",
@@ -29,7 +29,7 @@ function viewImage(imageId){
 	
 	imageImage.click(function() {
 			setHash('');
-			closeMonad();
+			closeModal();
 		});
 	imageBlock.append(imageImage);
 	imageBlock.append(imageWidth);
@@ -67,7 +67,7 @@ function viewImage(imageId){
 			
 			// binds a rezize of the window to a resize of the imagebox
 			$(window).resize(function () {
-				if($("#monad").css('display') == "block")
+				if($("#modal").css('display') == "block")
 					var width= ($("#imageZoomWidth").val() < window.innerWidth 
 							? $("#imageZoomWidth").val() 
 							: (window.innerWidth * 0.9)) 
@@ -85,7 +85,7 @@ function viewImage(imageId){
 		},
 		error: function () {
 			alert("Could not retrieve image!");
-			closeMonad();
+			closeModal();
 		}
 	});
 	

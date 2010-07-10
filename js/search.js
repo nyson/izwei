@@ -100,7 +100,7 @@ function getImages(searchRules) {
 		dataType: 'json',
 		success: function (images) {
 			$("#content").empty();
-			closeMonad();
+			closeModal();
 			for(i in images)
 				$("#content").append(makeImageBox(images[i]));
 		},

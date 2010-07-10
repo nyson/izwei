@@ -41,7 +41,7 @@ function loadImage() {
 		"class":"ajaxLoading"
 	 });
 	 
-	 monad();
+	 modal();
 	 return load;	 
 }
 
