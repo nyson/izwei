@@ -82,8 +82,11 @@ function setHash(newHash, useHandler) {
  *                For example, in the tag dialog, the tag text box should
  *                have focus when the dialog opens, so we pass
  *                [dialog, textBox].
+ *
+ * @param closeOnClickOutside Should the modal dialog close when the user
+ *                            clicks outside it?
  */
-function monad(content){
+function monad(content, closeOnClickOutside){
 	if(content instanceof Array) {
 		thebody = content[0];
 	} else {
@@ -93,6 +96,9 @@ function monad(content){
 	$("#monadContent").append(thebody);
 	$("#monadContent").css({"display":"block"});
 	$("#monad").css({"display":"block"});
+	if(closeOnClickOutside) {
+		$("#monadContent").click(closeMonad);
+	}
 	if(content instanceof Array && content.length == 2) {
 		content[1].focus();
 	}	

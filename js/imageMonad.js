@@ -10,7 +10,7 @@ function viewImage(imageId){
 	var imageImage = $(document.createElement("img"));
 	var imageWidth = $(document.createElement("input"));
 
-	monad(imageBlock);
+	monad(imageBlock, true);
 
 	imageWidth.attr({
 		"type":"hidden",
