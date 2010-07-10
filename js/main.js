@@ -22,9 +22,9 @@ $(document).ready(function() {
 	});
 	
 	$("#uploadURL").keypress(function(event) {
-		if(event.keyCode == '13')
+		if(event.keyCode == '13') {
 			$("#sumbitImage").click();
-			event.preventDefault();
+		}
 	});
 	
 	// let's make a dialog!
