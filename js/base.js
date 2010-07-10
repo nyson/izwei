@@ -20,23 +20,7 @@ function urlify(arr) {
  * trims whitespace, tabs, newlines and nullbytes from strings
  */
 function trim(str) {
-	var newStr = new String();
-	var lastGoodChar = -1;
-	
-	for (var i = 0; i < str.length; i++) {
-		switch(str.charAt(i)) {
-			case ' ': 	case '\n': 	case '\t':
-			case '\r': 	case '\0': 	case '\x0B':
-				if(lastGoodChar != -1)
-					newStr = newStr + str.charAt(i);
-				break;
-			default:
-				newStr = newStr + str.charAt(i);
-				lastGoodChar = newStr.length;
-				break;
-		}
-	}
-	return newStr.substring(0, lastGoodChar);
+	return str.replace(/^\s*|\s*$/g, '');
 }
 
 /**
