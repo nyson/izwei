@@ -26,12 +26,33 @@ function tagDialog(imageId) {
  * @param tags an associative array of tags to list
  * @param image the image where we add tags
  * 
- * @return a neatly formatted box to append to the document
+ * @return an array containing two items; the first item is a neatly formatted
+ *         box to append to the document, the second is the text box that
+ *         needs to be focused when the dialog opens.
  */
 function tagDialogContent(tags, image) {
 	var box = $(document.createElement('div'));
 	var tagField = $(document.createElement('fieldset'));
-	var textBox = $(document.createElement('input'));
+
+	// NOTE: since jQuery is fucking retarded, we can't use it to set handlers
+	//       on UI elements other than passing them as text which will later
+	//       be eval'd. To work around this, we ensure that we get a reference
+	//       to the real text box and then bypass jQuery to set the keypress
+	//       handler.
+	var realTextBox = document.createElement('input');
+	realTextBox.onkeypress = function(evt) {
+			switch(evt.keyCode) {
+				case 27: // escape; close dialog
+					closeMonad();
+					break;
+				case 13: // return; submit tags
+					submitTags();
+					closeMonad();
+					break;
+			}
+		}
+
+	var textBox = $(realTextBox);
 	var imageId = textBox.clone();
 	var okButton = textBox.clone();
 	okButton.attr({'type':'button'});
@@ -90,5 +111,5 @@ function tagDialogContent(tags, image) {
 	box.append($(document.createElement("br")));
 	box.append(cancelButton);
 	box.append(okButton);
-	return box;
+	return [box, textBox];
 }
