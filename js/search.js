@@ -94,7 +94,7 @@ function getImages(searchRules) {
 	// with.
 	if(typeof searchRules == 'string') {
 		searchString = searchRules;
-		setHash('search:' + searchString);
+		setHash('search:' + encode64(searchString));
 	} else if(searchRules == null) {
 		// If searchRules is null, then we get the default set of images,
 		// just like on front page load. If this is the case, we don't set
@@ -110,7 +110,7 @@ function getImages(searchRules) {
 		}
 		searchRules['do'] = 'getImages';
 		searchString = urlify(searchRules);
-		setHash('search:' + searchString);
+		setHash('search:' + encode64(searchString));
 	}
 
 	$.ajax({

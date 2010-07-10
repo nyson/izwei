@@ -59,7 +59,7 @@ function hashNav() {
 			getImages();
 			break;
 		case 'search': // stored search, perform it and show the results
-			getImages(data);
+			getImages(decode64(data));
 			break;
 		default: // if we just get a number with no prefix, it's an image ID
 			if(!isNaN(parseFloat(theHash))) {

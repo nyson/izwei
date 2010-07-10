@@ -40,6 +40,7 @@ class Design {
 	<script type="text/javascript" src="./js/DOMNodes/searchNodes.js"></script>
     
     <script type="text/javascript" src="./js/base.js"></script>
+    <script type="text/javascript" src="./js/base64.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     <script type="text/javascript" src="./js/upload.js"></script>
     <script type="text/javascript" src="./js/dialogs.js"></script>

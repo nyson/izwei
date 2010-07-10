@@ -13,7 +13,7 @@ switch ($_GET['do']) {
 	/**
 	 *  This will fetch a full list of images
 	 */
-	case getImages: 
+	case 'getImages': 
 		$s = new Search();
 		
 		// gets the range of our search
@@ -27,10 +27,21 @@ switch ($_GET['do']) {
 			$s->range(NULL, $_GET['count']);
 
 		// sets our tags
-		if(isset($_GET['include']))
-			$s->with(explode(',', $_GET['include']));
-		if(isset($_GET['exclude']))
-			$s->without(explode(',', $_GET['exclude']));
+		if(isset($_GET['include'])) {
+			$tags = explode(',', $_GET['include']);
+			foreach($tags as $k => $v) {
+				$tags[$k] = urldecode($v);
+			}
+			$s->with($tags);
+		}
+
+		if(isset($_GET['exclude'])) {
+			$tags = explode(',', $_GET['exclude']);
+			foreach($tags as $k => $v) {
+				$tags[$k] = urldecode($v);
+			}
+			$s->without($tags);
+		}
 		
 		// sets our order
 		if(isset($_GET['order'])) {
