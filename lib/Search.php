@@ -21,6 +21,8 @@ define("SORT_LESSTAGS", 6);
  * SQL bindings for i
  */
 require_once("./lib/SQL.php");
+require_once("./config.php");
+
 
 /**
  * Search handler for i
@@ -170,8 +172,10 @@ class Search {
      * @param int $count The maximum of returned objects
      */
     public function range($offset=0, $count = DEFAULT_IMAGE_COUNT) {
-        $this->query['limit']['offset'] = $offset;
-        $this->query['limit']['count'] = $count;
+        $this->query['limit']['offset'] =
+            is_numeric($offset) ? $offset : 0;
+        $this->query['limit']['count'] =
+            is_numeric($count) ? $count : DEFAULT_IMAGE_COUNT;
     }
 
     
