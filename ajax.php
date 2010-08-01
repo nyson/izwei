@@ -8,67 +8,77 @@ if(!isset($_GET['debug']))
 	error_reporting(!E_ALL);
 
 
+function axSetSearch(Search $search) {
 
+    // gets the range of our search
+    if(isset($_GET['offset'])) {
+        if(isset($_GET['count']))
+            $search->range($_GET['offset'], $_GET['count']);
+        else
+            $search->range($_GET['offset']);
+    }
+    else if(isset($_GET['count']))
+        $search->range(NULL, $_GET['count']);
+
+    // sets our tags
+    if(isset($_GET['include'])) {
+        $tags = explode(',', $_GET['include']);
+        foreach($tags as $k => $v) {
+            $tags[$k] = urldecode($v);
+        }
+        $search->with($tags);
+    }
+
+    if(isset($_GET['exclude'])) {
+        $tags = explode(',', $_GET['exclude']);
+        foreach($tags as $k => $v) {
+            $tags[$k] = urldecode($v);
+        }
+        $search->without($tags);
+    }
+
+    // sets our order
+    if(isset($_GET['order'])) {
+        $orders = explode(',', $_GET['order']);
+
+        foreach($orders as $key => &$o)
+            switch($o) {
+                case 'newest':
+                    $o = SORT_NEWEST;
+                    break;
+                case 'oldest':
+                    $o = SORT_OLDEST;
+                    break;
+                case 'best':
+                    $o = SORT_POPULARITY;
+                    break;
+                case 'worst':
+                    $o = SORT_IMPOPULARITY;
+                    break;
+                case 'random':
+                    $o = SORT_RANDOM;
+                    break;
+                default:
+                    trigger_error("Sort mode $o is not supported!",
+                        E_USER_NOTICE);
+            }
+        $search->order($orders);
+    }
+
+    return $search;
+}
+
+
+
+/****************** * * * START OF $_GET['do'] SWITCH! * * * ******************/
 switch ($_GET['do']) {
 	/**
 	 *  This will fetch a full list of images
 	 */
 	case 'getImages': 
 		$s = new Search();
-		
-		// gets the range of our search
-		if(isset($_GET['offset'])) {
-			if(isset($_GET['count']))
-				$s->range($_GET['offset'], $_GET['count']);
-			else
-				$s->range($_GET['offset']);
-		}	
-		else if(isset($_GET['count']))
-			$s->range(NULL, $_GET['count']);
 
-		// sets our tags
-		if(isset($_GET['include'])) {
-			$tags = explode(',', $_GET['include']);
-			foreach($tags as $k => $v) {
-				$tags[$k] = urldecode($v);
-			}
-			$s->with($tags);
-		}
-
-		if(isset($_GET['exclude'])) {
-			$tags = explode(',', $_GET['exclude']);
-			foreach($tags as $k => $v) {
-				$tags[$k] = urldecode($v);
-			}
-			$s->without($tags);
-		}
-		
-		// sets our order
-		if(isset($_GET['order'])) {
-			$orders = explode(',', $_GET['order']);
-			
-			foreach($orders as $key => &$o)
-				switch($o) {
-					case 'newest':
-						$o = SORT_NEWEST;
-						break;
-					case 'oldest':
-						$o = SORT_OLDEST;
-						break;
-					case 'best':
-						$o = SORT_POPULARITY;
-						break;
-					case 'worst':
-						$o = SORT_IMPOPULARITY;
-						break;
-					case 'random':
-						$o = SORT_RANDOM;
-						break;
-					default: 
-						trigger_error("Sort mode $o is not supported!", E_USER_NOTICE);
-				}
-			$s->order($orders);
-		}
+        $s = axSetSearch($s);
 
 		$result = $s->search();
 		$images = array();
@@ -159,6 +169,39 @@ switch ($_GET['do']) {
 			
 			
 		break;
+    /**
+     * This will call forth the next image by the given search and id
+     * needs $_GET param 'id' for the image we have right now
+     */
+    case 'nextImage':
+        if(!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            echo "-60 No or invalid id!";
+            break;
+        }
+
+        $s = new Search();
+
+        // retrieves our search based on get values
+        $s = axSetSearch($s);
+
+        $r = $s->next($_GET['id']);
+
+        if(!$r) {
+            echo "-61 current id not found in database!";
+            break;
+        } else if($r->num_rows === 0){
+            echo "-62 next image could not be found!";
+            break;
+        }
+        
+        echo json_encode($r->fetch_object());
+
+        break;
+
+    /**
+     * default behaviour is telling us that we need to bring a valid
+     * do-operand to get valid results 
+     */
 	default: 
 		if(isset($_GET['do']))
 			echo "-10 Operation '".$_GET['do']."' not valid!";

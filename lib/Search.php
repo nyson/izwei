@@ -359,7 +359,7 @@ class Search {
 
     /**
      * retrieves the next image in the current search
-     * @return mysqli_object
+     * @return mysqli_object or false if next image could not be found
      */
     public function next($id) {
         $query = "SELECT image.*, tags.tag, COUNT(tags.id) as tagCount \n"
@@ -367,8 +367,15 @@ class Search {
             . "LEFT JOIN taglinks AS tagl ON image.id = tagl.object \n"
             . "LEFT JOIN tags ON tags.id = tagl.tag \n";
 
-        $currentImage = SQL::query($query
-            . "WHERE image.id = '$id' GROUP BY image.id LIMIT 0,1")->fetch_object();
+
+        $r = SQL::query($query . "WHERE image.id = '$id' GROUP BY image.id LIMIT 0,1");
+        if($r->num_rows === 0) {
+            trigger_error("No image at that id!", E_USER_NOTICE);
+            return false;
+        }
+        
+        $currentImage = $r->fetch_object();
+
 
         $query .= "WHERE ".$this->getTags();
         $query .= "AND ". $this->getOrderAsWhereClause($currentImage);
@@ -386,11 +393,10 @@ class Search {
     }
 
     /**
-     * Creates a where clause 
+     * Creates a where clause from the orders given
      * @param <type> $image
      * @return <type>
      */
-
     private function getOrderAsWhereClause($image, $increment = true) {
 
         if(isset($this->query['order'])) {
