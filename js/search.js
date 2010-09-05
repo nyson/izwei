@@ -19,7 +19,7 @@ function searchHelp() {
 function getSearchArray(searchString) {
 	var searches = searchString.split(" ");
 	var result = new Array();
-	var acceptedOrders = new Array('best', 'worst', 'newest', 'oldest', 'random');
+	var acceptedOrders = new Array('best', 'worst', 'newest', 'oldest', 'random', 'mosttags', 'leasttags');
 	$("#content").empty();
 	$("#content").append(loadImage());
 	

@@ -91,3 +91,4 @@ function makeImageOperations(image) {
 	
 	return block;
 }
+

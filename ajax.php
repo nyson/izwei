@@ -58,6 +58,12 @@ function axSetSearch(Search $search) {
                 case 'random':
                     $o = SORT_RANDOM;
                     break;
+                case 'mosttags':
+                	$o = SORT_MORETAGS;
+                	break;
+                case 'leasttags':
+                	$o = SORT_LESSTAGS;
+                	break;
                 default:
                     trigger_error("Sort mode $o is not supported!",
                         E_USER_NOTICE);

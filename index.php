@@ -22,6 +22,9 @@
 
 <?php $site->header(); ?>
 
+<head>
+<?php $site->head(); ?>
+</head>
 
 <body>
 	<div id="dialog">

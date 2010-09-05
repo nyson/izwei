@@ -20,18 +20,28 @@ define("FORM_ADDTAGS", 3);
 class Design {
 	public function __construct() {}
 
-	
+
 	public function header() {
+		echo <<<END
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+END;
+	}
+	
+	public function head() {
 		echo <<<END
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
-<head>
     <title>I it is...</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" href="./css/form.css" />
     <link rel="stylesheet" href="./css/dialogs.css" />
+    <link rel="stylesheet" href="./css/menu.css" />
 
 
     <script type="text/javascript" src="./js/jquery/jquery-1.4.2.min.js"></script>
@@ -47,8 +57,8 @@ class Design {
     <script type="text/javascript" src="./js/bindings.js"></script>
     <script type="text/javascript" src="./js/imageModal.js"></script>
     <script type="text/javascript" src="./js/search.js"></script>
+    <script type="text/javascript" src="./js/listMenu.js"></script>
     
-</head>
 END;
 	}
 	

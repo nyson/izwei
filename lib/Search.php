@@ -318,11 +318,11 @@ class Search {
                         break;
                     case SORT_LESSTAGS:
                         $query[] = "tagCount "
-                            . ($upward ? "DESC" : "ASC");
+                            . ($upward ? "ASC" : "DESC");
                         break;
                     case SORT_MORETAGS:
-                        $query[] = "tagCount ASC"
-                            . ($upward ? "ASC" : "DESC");
+                        $query[] = "tagCount "
+                            . ($upward ? "DESC" : "ASC");
                         break;
                 }
 
