@@ -5,7 +5,7 @@
 function searchHelp() {
 	var str = " include(any tag): \n'tag tag2 tag3'\n "
 		+ "\nexclude(any tag): \n'!tag !tag2 !tag3'\n "
-		+ "\norder (mode): \nsupported modes: random, best/worst, newest/oldest): \n'order=newest,best'\n "
+		+ "\norder (mode): \nsupported modes: random, best/worst, newest/oldest, mosttags/leasttags): \n'order=newest,best'\n "
 		+ "\nrange (number): \n'offset=1 count=2'\n "
 		+ "\ncombine!\n 'count=20 order=random !nsfw'"
 	alert(str);

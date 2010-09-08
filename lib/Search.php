@@ -328,7 +328,7 @@ class Search {
 
             }
 
-            return "ORDER BY " . implode($query, " AND ") . "\n";
+            return "ORDER BY " . implode($query, ", ") . "\n";
         }
             return false;
     }

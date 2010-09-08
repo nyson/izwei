@@ -3,15 +3,25 @@
 function displaySearchRuleset(search){
 	$("#searchRules").empty();
 	var box = $(document.createElement('div'));
+	var head = $(document.createElement('h2'));
 	box.attr({'class':'searchRuleBox'});
+		
+	//$("#searchRules").append();
 	
-	
+	// our sorting methods
 	if(search['order'] != null && search['order'].length > 0){
-		var order = box.clone();
-		order.html("order is: " + search['order'].join(', '));
-		$("#searchRules").append(order);
+		var oHead = head.clone();
+		oHead.html("Sorting by: ");
+		$("#searchRules").append(oHead);
+
+		for(o in search['order']) {
+			var order = box.clone();
+			order.html(search['order'][o]);
+			$("#searchRules").append(order);
+		}
 	}
 	
+	// our offset
 	if(search['offset'] != null || search['count'] != null) {
 		var range = box.clone();
 		range.html(
@@ -21,11 +31,14 @@ function displaySearchRuleset(search){
 		$("#searchRules").append(range);
 	}
 	
+	// our included tags
 	if(search['include'] != null) {
 		var include = box.clone();
 		include.html("only include tags: " + search['include'].join(', '));
 		$("#searchRules").append(include);		
 	}
+	
+	// our excluded tags
 	if(search['exclude'] != null) {
 		var exclude = box.clone();
 		exclude.html("exclude tags: " + search['exclude'].join(', '));
