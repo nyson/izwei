@@ -20,61 +20,66 @@ function getSearchArray(searchString) {
 	var searches = searchString.split(" ");
 	var result = new Array();
 	var acceptedOrders = new Array('best', 'worst', 'newest', 'oldest', 'random', 'mosttags', 'leasttags');
+	var caught;
 	$("#content").empty();
 	$("#content").append(loadImage());
 	
 	
 	for(s in searches) {
-		searches[s];
+		caught = false;
 		// get our excluded tags
 		if((aSearch = searches[s].split('=')).length > 1) {
 			switch(aSearch[0]) {
-				case 'order':
+				// our sort order
+				case 'order':	 
 					var addOrders = aSearch[1].split(',');
 						for(o in addOrders)
 							if(isInArray(addOrders[o], acceptedOrders)){
 								if(result['order'] == null)
 									result['order'] = new Array();
 								result['order'].push(addOrders[o]);
-								searches[s] = "";
+								caught = true;
 							}					
 					break;
-					
+				
+				// our offset of the search
 				case 'offset':
 					if(result['offset'] == null)
 						result['offset'] = new Array();
 					result['offset'] = parseInt(aSearch[1]);
 					if(result['offset'] == Number.NaN)
 						result['offset'] = 0;
-					searches[s] = "";
+					caught = true;
 					break;
+					
+				// amount of images to show
 				case 'count':
 					if(result['count'] == null)
 						result['count'] = new Array();
 					result['count'] = parseInt(aSearch[1]);
 					if(result['count'] == Number.NaN)
 						result['count'] = 12;
-					searches[s] = "";
+					caught = true;
 					break;
-
-					
-				default: 
-					alert(search[0]);
 			}
 		}
 		
-		
 		// add our tags
-		if(searches[s] != ""){
+		if(!caught){
 			var tags = searches[s].split(',');
+			
 			for(t in tags){
 				tags[t] = tags[t].split('=')[0];
 				tags[t] = tags[t].split(',')[0];
+								
+				if(tags[t] == '')
+					break;
+				
 				if(tags[t].charAt(0) == '!') {
 					if(result['exclude'] == null)
 						result['exclude'] = new Array();
 					result['exclude'].push(trim(tags[t].substr(1))); 
-				}
+				}				
 				else {
 					if(result['include'] == null)
 						result['include'] = new Array();
@@ -84,7 +89,6 @@ function getSearchArray(searchString) {
 			}
 		}
 	}
-
 	return result;
 }
 
@@ -117,19 +121,14 @@ function getImages(searchRules) {
 		data: searchString,
 		dataType: 'json',
 		success: function (images) {
-			$("#content").empty();
+			$("#thumbnails").empty();
 			closeModal();
 			for(i in images)
-				$("#content").append(makeImageBox(images[i]));
+				$("#thumbnails").append(makeImageBox(images[i]));
 		},
 		error: function (x, y, z) {
 			rAlert(Array(x,y,z));
 		}
 	});
 }
-
-
-
-
-
 

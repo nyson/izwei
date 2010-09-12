@@ -143,15 +143,30 @@ img { z-index: 1}
 	z-index: 1000;
 }
 
+#searchRules div {
+		
+}
+
+#searchRules h2 {
+	display: block;
+	position: relative;
+	width: 100%;
+	margin-bottom: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 12px;
+	clear: both;
+	
+}
+
 .searchRuleBox {
 	border: 1px solid #faa;
 	-moz-border-radius: 3px;
 	display: block;
-	width: 90%;
+	position: relative;
 	padding: 5px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
+	float: left;
+	margin: 5px;
 }
 
 

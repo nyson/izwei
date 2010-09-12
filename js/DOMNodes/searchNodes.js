@@ -6,8 +6,6 @@ function displaySearchRuleset(search){
 	var head = $(document.createElement('h2'));
 	box.attr({'class':'searchRuleBox'});
 		
-	//$("#searchRules").append();
-	
 	// our sorting methods
 	if(search['order'] != null && search['order'].length > 0){
 		var oHead = head.clone();
@@ -23,7 +21,7 @@ function displaySearchRuleset(search){
 	
 	// our offset
 	if(search['offset'] != null || search['count'] != null) {
-		var range = box.clone();
+		var range = head.clone();
 		range.html(
 			(search['offset'] != null ? "offset = " + search['offset'] + "<br />": "") 
 			+ (search['count'] != null ? "count = " + search['count'] : "")
@@ -32,19 +30,30 @@ function displaySearchRuleset(search){
 	}
 	
 	// our included tags
-	if(search['include'] != null) {
-		var include = box.clone();
-		include.html("only include tags: " + search['include'].join(', '));
-		$("#searchRules").append(include);		
+	if(search['include'] != null && search['include'].length > 0) {
+		var iHead = head.clone();
+		iHead.html("Included tags");
+		$("#searchRules").append(iHead);
+		
+		for(i in search['include']) {
+			var include = box.clone();
+			include.html(search['include'][i]);
+			$("#searchRules").append(include);
+		}
 	}
 	
 	// our excluded tags
-	if(search['exclude'] != null) {
-		var exclude = box.clone();
-		exclude.html("exclude tags: " + search['exclude'].join(', '));
-		$("#searchRules").append(exclude);
-	}
-}
+	if(search['exclude'] != null && search['exclude'].length > 0) {
+		var eHead = head.clone();
+		eHead.html("Excluded tags");
+		$("#searchRules").append(eHead);
+		
+		for(e in search['exclude']) {
+			var exclude = box.clone();
+			exclude.html(search['exclude'][e]);
+			$("#searchRules").append(exclude);
+		}
+	}}
 
 function loadImage() {
 	var load = $(document.createElement("img"));
