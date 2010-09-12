@@ -1,0 +1,93 @@
+#colMenu {
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	position: fixed;
+	height: 100%;
+	width: 30px;
+	text-align: center;
+	background: #ff7a2a;
+}
+
+.menuIconLink {
+    outline: none;
+}
+.menuIconLink img {
+	border: 0px;
+	background-color: #fff;
+	margin: 2px;
+	padding: 2px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+
+.menuIconLink img:hover {
+	margin: 0px;
+	border: 2px solid #ff6000;
+}
+
+.about {
+	bottom: 2px;
+	position: absolute;
+}
+
+#thumbnails {
+	font-size: 12px;
+    left: 30px;
+    position: absolute;
+    padding: 5px;
+    right: 0px;
+
+}
+
+
+
+
+.menuIcon {
+	position: relative;
+}
+
+.menuPopupContainer{
+	position: absolute;
+	top: -8px;
+	left: 30px;
+	z-index: 97;
+	display: none;
+
+}
+
+.menuPopupWing {
+	margin: 0px;
+	position: absolute;
+	top: 10px;
+	margin: 0px;
+	width: 10px;
+	height: 10px;
+	z-index: 99;
+	-moz-border-radius-topleft: 50px;
+	-moz-border-radius-bottomleft: 2px;
+	
+	border-top-left-radius: 50px;
+	border-bottom-left-radius:2px;
+
+	border-left: 2px solid #000;
+	border-top: 2px solid #000;
+	border-bottom: 2px solid #000;
+	background-color: #fff;
+	
+}
+.menuPopup {
+	background-color: #fff;
+	z-index: 98;
+	border: 2px solid #000;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+
+	margin-left: 10px;
+	padding: 3px;
+	min-height: 50px;
+	min-width: 200px;
+	position: relative; 
+	float: left;
+}
