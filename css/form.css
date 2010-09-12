@@ -16,6 +16,7 @@ img { z-index: 1}
 
 #menu h2 {text-align: center;}
 #menu fieldset {
+	border-radius: 5px;
     -moz-border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
@@ -62,6 +63,7 @@ img { z-index: 1}
 .imageBlock .thumbnail {
     background-color: #666;
     border: 2px solid #999;
+	border-radius: 5px;
     -moz-border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
@@ -79,6 +81,7 @@ img { z-index: 1}
 	cursor: pointer;
 }
 .imageBlock .imageOperations img {
+	border-radius: 3px;
 	-moz-border-radius: 3px;
 	background-color: #ccc;
 	border: 2px solid #ddd;
@@ -94,6 +97,7 @@ img { z-index: 1}
 	padding: 2px;
 	border: 1px solid #a00;
 	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .jsAction {
@@ -161,6 +165,7 @@ img { z-index: 1}
 
 .searchRuleBox {
 	border: 1px solid #faa;
+	border-radius: 3px;
 	-moz-border-radius: 3px;
 	display: block;
 	position: relative;

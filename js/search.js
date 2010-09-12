@@ -21,8 +21,8 @@ function getSearchArray(searchString) {
 	var result = new Array();
 	var acceptedOrders = new Array('best', 'worst', 'newest', 'oldest', 'random', 'mosttags', 'leasttags');
 	var caught;
-	$("#content").empty();
-	$("#content").append(loadImage());
+	$("#thumbnails").empty();
+	$("#thumbnails").append(loadImage());
 	
 	
 	for(s in searches) {

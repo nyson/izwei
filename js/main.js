@@ -27,6 +27,9 @@ $(document).ready(function() {
 		}
 	});
 	
+	// allows us to use our fancy search and upload windows by keyup
+	bindBubbleKeys();
+	
 	// let's make a dialog!
 	$("#dialog").dialog({autoOpen: false});
 

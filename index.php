@@ -21,12 +21,10 @@
 <?php $site->header(); ?>
 
 <head>
-<?php $site->head(); ?>
+	<?php $site->head(); ?>
 </head>
 
-<script type="text/javascript">
-	bindBubbleKeys();
-</script>
+
 
 <body>
     <div id="colMenu">

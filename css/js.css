@@ -4,5 +4,6 @@
 
 .searchFilter{
 	border: 1px solid #a00;
+	border-radius: 5px;
 	-moz-border-radius: 5px;
 }
