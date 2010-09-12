@@ -11,7 +11,7 @@
 function urlify(arr) {
 	ret = new Array();
 	for(a in arr) {
-		ret.push(a+"="+encodeURIComponent(arr[a]));
+		ret.push(a + "=" + encodeURIComponent(arr[a]));
 	}
 	return ret.join('&');
 }

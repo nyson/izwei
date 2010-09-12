@@ -20,7 +20,8 @@ function isBubbleKeyListenAvalible() {
  
 
 /**
- * creates a bubble or destroys all bubbles
+ * toggles a bubble or destroys all bubbles
+ * @param id null if all bubbles should be destroyed, else id is a representing string for the bubble to remove/show
  */ 
 function bubble(id) {
 	if(id === null) {
@@ -80,8 +81,8 @@ function clearBubbles() {
  */
 function bindBubbleKeys() {
 	$(document).bind('keydown', function(event) {
+		
 		// we don't want anything except for these keys to be processed
-
 		switch(event.which) {
 			case 115: case 83: // s 
 			case 117: case 85: // u
@@ -91,6 +92,7 @@ function bindBubbleKeys() {
 				break;
 		}
 
+		// checks if our keys are listened to
 		if(isBubbleKeyListenAvalible())
 			switch(event.which) {
 				// s or S
