@@ -31,14 +31,16 @@ END;
 	}
 	
 	public function head() {
-		echo <<<END
+		echo <<<HEADEND
 
     <title>I it is...</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     
-    <link rel="stylesheet" href="./css/form.css" />
+    <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/dialogs.css" />
     <link rel="stylesheet" href="./css/menu.css" />
+    <link rel="stylesheet" href="./css/content.css" />
+    <link rel="stylesheet" href="./css/navigation.css" />
     <link rel="stylesheet" href="./css/image.css" />
 
     <script type="text/javascript" src="./js/jquery/jquery-1.4.2.min.js"></script>
@@ -56,7 +58,7 @@ END;
     <script type="text/javascript" src="./js/search.js"></script>
     <script type="text/javascript" src="./js/listMenu.js"></script>
     
-END;
+HEADEND;
 	}
 	
 	public function footer() {
@@ -64,7 +66,7 @@ END;
 	}
 	
 	public function menu() {
-echo <<<ENDMENU
+		echo <<<ENDMENU
     <div id="colMenu">
     	<h2>i&sup2;</h2>
     	
@@ -91,7 +93,7 @@ echo <<<ENDMENU
 		    	<div class="menuPopupWing"></div>
 	    		<div class="menuPopup">
 					<form action="./" method="post" enctype="multipart/form-data">
-	     			<h2>Upload by file...</h2>
+	     			<h3>Upload by file...</h3>
 	     			<p>
 	                <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_FILE_SIZE ?>" />
 	                <input type="file" size='10' id='uploadImage' name="uploadImage" /><br />

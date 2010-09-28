@@ -5,52 +5,6 @@ body {
 
 img { z-index: 1}
 
-
-
-
-#menu {
-    left: 0px;
-    position: absolute;
-    width: 200px;
-}
-
-#menu h2 {text-align: center;}
-#menu fieldset {
-	border-radius: 5px;
-    -moz-border-radius: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    text-align: center;
-    width: 90%;
-    padding: 2px;
-    padding-bottom: 5px;
-    font-size: 12px;
-}
-
-/* remember, 90% of the menu in width looks best in a 200px menu!*/
-/* search */
-    #searchField input[type=text],input[type=search]  {width: 70%;}
-    #searchField input[type=button] {width: 20%;}
-/* upload */
-    #uploadField input[type=file] {font-size: 9px;}
-    #uploadField input[type=text] {width: 70%;}
-    #uploadField input[type=button] {width: 20%;}
-
-
-#content {
-    font-size: 12px;
-    left: 200px;
-    position: absolute;
-    padding: 5px;
-    right: 0px;
-    	
-    
-}
-
-
-
-
 .statusMessage{
 	display: none;
 	font-size: 10px;

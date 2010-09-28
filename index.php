@@ -1,4 +1,4 @@
-<?
+<?php
 
     require_once("./lib/SQL.php"); // sql session management
     require_once("./lib/Upload.php"); // upload management
