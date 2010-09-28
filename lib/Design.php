@@ -45,9 +45,7 @@ END;
 
     <script type="text/javascript" src="./js/jquery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="./js/jquery/jquery-ui-1.8.1.custom.min.js"></script>
-    
 	<script type="text/javascript" src="./js/DOMNodes/searchNodes.js"></script>
-    
     <script type="text/javascript" src="./js/base.js"></script>
     <script type="text/javascript" src="./js/base64.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>

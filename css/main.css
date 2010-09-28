@@ -5,6 +5,12 @@ body {
 
 img { z-index: 1}
 
+
+
+/**
+ * Classes to JavaScript created DOM nodes
+ * 
+ */
 .statusMessage{
 	display: none;
 	font-size: 10px;
@@ -14,6 +20,8 @@ img { z-index: 1}
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
+
+
 
 .jsAction {
     font-weight: bold;
