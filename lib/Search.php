@@ -340,7 +340,7 @@ class Search {
      * @return mysqli_result
      */
     public function search() {
-        $query = "SELECT image.*, tags.tag, COUNT(tags.id) as tagCount \n"
+        $query = "SELECT image.id, image.time, image.file, image.name, image.width, COUNT(tags.id) as tagCount \n"
             . "FROM images AS image \n"
             . "LEFT JOIN taglinks AS tagl ON image.id = tagl.object \n"
             . "LEFT JOIN tags ON tags.id = tagl.tag \n";
