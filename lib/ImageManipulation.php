@@ -53,10 +53,7 @@ class ImageManipulation {
      */
     private function getMime($file){
 	    $mime = null;
-	    if(function_exists("mime_content_type")){
-	        $mime = mime_content_type($file);
-	    }
-        else if(function_exists("finfo_open")) {
+        if(function_exists("finfo_open")) {
 	        $finfo = finfo_open(FILEINFO_MIME);
 	        $mime = finfo_file($finfo, $file);
 	        finfo_close($finfo);
@@ -131,8 +128,8 @@ class ImageManipulation {
                 $this->image = imagecreatefromgif($image);
                 break;
             default:
-                trigger_error("Could not create image! Image format not"
-                    . " supported!", E_USER_WARNING);
+                trigger_error("Could not create image! Image format "
+                    . "'$this->mime' not supported!", E_USER_WARNING);
                 return false;
         }
 
