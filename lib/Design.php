@@ -35,7 +35,7 @@ END;
 
     <title>I it is...</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    
+	<link rel="alternate" type="application/rss+xml" title="i&sup2; feed (RSS 2.0)" href="http://jont.se/~nyson/i/rss.php" />    
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/dialogs.css" />
     <link rel="stylesheet" href="./css/menu.css" />
@@ -64,6 +64,7 @@ HEADEND;
 	}
 	
 	public function menu() {
+		$max_file_size = MAX_FILE_SIZE;
 		echo <<<ENDMENU
     <div id="colMenu">
     	<h2>i&sup2;</h2>
@@ -81,9 +82,9 @@ HEADEND;
 	    	</div>
 			</div>
 			
-	    	<a class="menuIconLink" href="javascript:bubble('search');" title="Search (s)">
-	    		<img src="./design/icons/find.png" alt="Search (s)" />
-	    	</a>
+	    	<div class="menuIconLink">
+	    		<img src="./design/icons/find.png" onclick="bubble('search')" alt="Search (s)" />
+	    	</div>
 		</div>	    	
     	
     	<div class="menuIcon">
@@ -93,7 +94,7 @@ HEADEND;
 					<form action="./" method="post" enctype="multipart/form-data">
 	     			<h3>Upload by file...</h3>
 	     			<p>
-	                <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_FILE_SIZE ?>" />
+	                <input type="hidden" name="MAX_FILE_SIZE" value="$max_file_size" />
 	                <input type="file" size='10' id='uploadImage' name="uploadImage" /><br />
 	                <span>...or enter an url!</span><br />
 	                <input type="text" class="iWantFocus" id="uploadURL" /> <br />
@@ -104,9 +105,9 @@ HEADEND;
         		</div>
 			</div>    	
     	
-	    	<a class="menuIconLink" href="javascript:bubble('upload');" title="Upload (u)">
-	    		<img src="./design/icons/image_add.png" alt="Upload (u)"  />
-	    	</a>
+	    	<div class="menuIconLink">
+	    		<img src="./design/icons/image_add.png" onclick="bubble('upload')" alt="Upload (u)"  />
+	    	</div>
     	</div>
 
     </div>		

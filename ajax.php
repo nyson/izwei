@@ -6,7 +6,9 @@ require_once("./lib/Search.php");
 // we really don't want to have errors showing up here
 if(!isset($_GET['debug']))
 	error_reporting(!E_ALL);
-
+else {
+	error_reporting(E_ALL);
+}
 
 function axSetSearch(Search $search) {
 

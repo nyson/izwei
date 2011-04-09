@@ -123,35 +123,39 @@ class Upload {
 
     	$this->file['hash'] = hash_file("md5", $this->file['tmp_name']);
 		
-		
-		
 		// checks if image is new and if not only grants the image a new
 		// timestamp
 		$res = SQL::query("SELECT COUNT(*) as images FROM images"
 			. " WHERE hash = '".$this->file['hash']."' LIMIT 1");
+				
 		if($res->fetch_object()->images > 0){
+			
 			trigger_error("Hash is not unique, will only update image",
 				E_USER_NOTICE);
 			SQL::query("UPDATE images SET images.time = '".time()."' "
 				. "WHERE hash = '" .$this->file['hash']. "' LIMIT 1");
+
 			
 			return "2\nSuccess! Image updated in database!";
 		}
 		else {
-	    	$this->file['name'] = split('/', $url);
+			
+	    	$this->file['name'] = explode('/', $url);
 	    	$this->file['name'] = $this->file['name'][count($this->file['name']) - 1];
 	    	$this->cleanFilename();
 	    	
 			if(!copy($this->file['tmp_name'], I_IMAGE_DIR 
             	. DIRECTORY_SEPARATOR . $this->file['safeName']))
                 	return "-14\nCould not copy file to image directory";
-                				
+            
+			
 			$manip = new ImageManipulation($this->file['tmp_name']);
 			$manip->thumbnail();
 			$manip->save(I_THUMBNAIL_DIR
                         . DIRECTORY_SEPARATOR . $this->file['safeName']);
-			unset($manip);
 			
+			unset($manip);
+
 			$this->insertIntoDB();
 			
 			return "1\nSuccess! '".$this->file['safeName']."' uploaded!";
@@ -173,6 +177,29 @@ class Upload {
         // if the whole string concisted of illegals, randomize new name
         if($name == "")
             $name = substr(md5(uniqid().rand()), 0, 5);
+            
+        if(preg_match("/.*\..+/i", $name) == 0) {
+            switch(ImageManipulation::getMime($this->file['tmp_name'])) {
+                case 'image/jpeg':
+			    case 'image/jpeg; charset=binary':
+                    $name .= ".jpg";
+                    break;
+
+                case 'image/png':
+                case 'image/png; charset=binary':
+                    $name .= ".png";
+                    break;
+                    
+                case 'image/gif':
+                case 'image/gif; charset=binary':                
+                    $name .= ".gif";
+                    break;
+                
+                default:
+                    trigger_error("Unsupported mime type, I wont give $name a file extension!", 
+                        E_USER_NOTICE);
+            }
+        }
 
         while(file_exists(I_IMAGE_DIR . DIRECTORY_SEPARATOR . $name)
             || file_exists(I_THUMBNAIL_DIR . DIRECTORY_SEPARATOR . $name)){

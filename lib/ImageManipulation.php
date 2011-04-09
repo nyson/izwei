@@ -51,8 +51,13 @@ class ImageManipulation {
      * @return bool
      * @access private
      */
-    private function getMime($file){
+    public static function getMime($file){
 	    $mime = null;
+		
+		if(class_exists("finfo")){
+			$finfo = new finfo(FILEINFO_MIME);
+			$mime = $finfo->file($file);
+		}
         if(function_exists("finfo_open")) {
 	        $finfo = finfo_open(FILEINFO_MIME);
 	        $mime = finfo_file($finfo, $file);
@@ -72,6 +77,9 @@ class ImageManipulation {
 	            case 'GIF8':
 	                $mime = 'image/gif';
 	                break;
+				default:
+					trigger_error("Tell the guy behind the levers of i&sup2; to see $str as a valid file. Thank you //Sincerely, i ", E_USER_ERROR);
+					$mime = $str;
 	        }
 	    }
 	    return $mime;
@@ -119,12 +127,16 @@ class ImageManipulation {
 
         switch($this->mime) {
             case 'image/jpeg':
+			case 'image/jpeg; charset=binary':
+
                 $this->image = imagecreatefromjpeg($image);
                 break;
             case 'image/png':
+            case 'image/png; charset=binary':
                 $this->image = imagecreatefrompng($image);
                 break;
             case 'image/gif':
+            case 'image/gif; charset=binary':
                 $this->image = imagecreatefromgif($image);
                 break;
             default:
