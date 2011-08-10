@@ -170,14 +170,16 @@ class Upload {
             trigger_error("Filename is empty!", E_USER_ERROR);
 
         // removes illegal characters
-        $badChars = 
-            array('/', '\\', '?', '%', '*', ':', '|', '"', '<', '>', ',');
-        $name = str_ireplace($badChars, "", $name);
+        $badChars = array('/', '\\', '?', '%', '*', ':', '|', 
+                '"', '<', '>', ',', "-", "_");
+        $name = str_replace($badChars, "", $name);
 
         // if the whole string concisted of illegals, randomize new name
-        if($name == "")
+        while($name == "")
             $name = substr(md5(uniqid().rand()), 0, 5);
-            
+
+
+
         if(preg_match("/.*\..+/i", $name) == 0) {
             switch(ImageManipulation::getMime($this->file['tmp_name'])) {
                 case 'image/jpeg':
@@ -199,11 +201,16 @@ class Upload {
                     trigger_error("Unsupported mime type, I wont give $name a file extension!", 
                         E_USER_NOTICE);
             }
+            
         }
+        
+        // fixes 
+		
+        $name = preg_replace("/(.*?)([!.]+)(\.)(jpg|gif|jpeg|png)(.*)/", "${2}.${4}", $name);        
 
         while(file_exists(I_IMAGE_DIR . DIRECTORY_SEPARATOR . $name)
             || file_exists(I_THUMBNAIL_DIR . DIRECTORY_SEPARATOR . $name)){
-            $name = substr(md5(uniqid().rand()), 0, 5) . substr($name, -26);
+            $name = rand() %10 . $name;
         }
 
         $this->file['safeName'] = $name;

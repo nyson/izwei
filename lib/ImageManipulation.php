@@ -82,6 +82,10 @@ class ImageManipulation {
 					$mime = $str;
 	        }
 	    }
+	    if(preg_match("/[a-zA-Z]+\/[a-zA-Z]+.+/", $mime)) {
+	        $mime = preg_replace("/([a-zA-Z]+\/[a-zA-Z]+)(.+)/", "$1", $mime);
+        }
+	    
 	    return $mime;
     }
 

@@ -14,9 +14,10 @@ function validateUpload() {
 		return true;
 	}
 	else {
-		uploadMessage("Uploading image by URL..");
+		uploadMessage("Uploading '"+$("#uploadURL").val()+"' by URL..");
 		uploadByURL($("#uploadURL").val());
 		$("#uploadURL").val("");
+		return false;
 	}
 		
 	return false;
@@ -35,7 +36,9 @@ function uploadByURL(url) {
 			"url" : url
 		},
 		success: function(result) {
+			console.debug(result);
+			//return;
 			window.location.reload();
 		} 
-	})
+	});
 }
